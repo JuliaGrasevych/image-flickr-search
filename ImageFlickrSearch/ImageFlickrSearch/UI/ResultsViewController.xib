@@ -12,6 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ResultsViewController" customModule="ImageFlickrSearch" customModuleProvider="target">
             <connections>
+                <outlet property="collectionView" destination="QSI-OU-cgR" id="uuj-T8-5mv"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

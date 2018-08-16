@@ -7,7 +7,30 @@
 //
 
 import UIKit
+import RxSwift
+import RxDataSources
 
 class ResultsViewController: UIViewController {
-
+    @IBOutlet private var collectionView: UICollectionView!
+    
+    let viewModel = ResultsViewModel()
+    let disposeBag = DisposeBag()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        collectionView.dataSource = nil
+        collectionView.register(UINib(nibName: "ResultCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ResultCollectionViewCell")
+        viewModel.items.asObservable()
+            .bind(to: collectionView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+    }
+    
+    var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<Int, PhotoItem>> {
+        return RxCollectionViewSectionedReloadDataSource<SectionModel<Int, PhotoItem>>(
+            configureCell: { (dataSource, table, idxPath, item) in
+                let cell = table.dequeueReusableCell(withReuseIdentifier: "ResultCollectionViewCell", for: idxPath) as! ResultCollectionViewCell
+                cell.label.text = item.title
+                return cell
+        })
+    }
 }

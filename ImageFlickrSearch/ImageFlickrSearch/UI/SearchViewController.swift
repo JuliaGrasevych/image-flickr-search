@@ -39,5 +39,9 @@ class SearchViewController: UIViewController, CommonViewController {
             .bind(to: loadingVC.viewModel.text)
             .disposed(by: self.disposeBag)
         
+        viewModel.items.asObservable()
+            .map({ return $0?.items })
+            .bind(to: resultsVC.viewModel.resultItems)
+            .disposed(by: self.disposeBag)
     }
 }

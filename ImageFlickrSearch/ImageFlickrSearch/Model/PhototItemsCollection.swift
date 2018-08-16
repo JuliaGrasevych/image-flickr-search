@@ -9,7 +9,7 @@
 import Foundation
 
 class PhotoItemsCollection {
-    private var items: [PhotoItem]?
+    private(set) var items: [PhotoItem]?
     var searchTerm: String
     private var currentPosition = 0
     

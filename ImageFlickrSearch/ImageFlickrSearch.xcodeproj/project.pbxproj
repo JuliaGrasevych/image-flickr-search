@@ -38,6 +38,9 @@
 		C27679412125A4CD00C6531A /* LoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C276793F2125A4CD00C6531A /* LoadingViewController.xib */; };
 		C27679432125A60700C6531A /* LoadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27679422125A60700C6531A /* LoadingViewModel.swift */; };
 		C27679452125ACFE00C6531A /* PhototItemsCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27679442125ACFE00C6531A /* PhototItemsCollection.swift */; };
+		C27679472125CC9400C6531A /* ResultsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27679462125CC9400C6531A /* ResultsViewModel.swift */; };
+		C276794A2125CE5700C6531A /* ResultCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27679482125CE5700C6531A /* ResultCollectionViewCell.swift */; };
+		C276794B2125CE5700C6531A /* ResultCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C27679492125CE5700C6531A /* ResultCollectionViewCell.xib */; };
 		D0860E5CFD142CB8CD5CED96 /* Pods_ImageFlickrSearchTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3753F9FC4FD987832F4C78D7 /* Pods_ImageFlickrSearchTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -92,6 +95,9 @@
 		C276793F2125A4CD00C6531A /* LoadingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingViewController.xib; sourceTree = "<group>"; };
 		C27679422125A60700C6531A /* LoadingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewModel.swift; sourceTree = "<group>"; };
 		C27679442125ACFE00C6531A /* PhototItemsCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhototItemsCollection.swift; sourceTree = "<group>"; };
+		C27679462125CC9400C6531A /* ResultsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewModel.swift; sourceTree = "<group>"; };
+		C27679482125CE5700C6531A /* ResultCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultCollectionViewCell.swift; sourceTree = "<group>"; };
+		C27679492125CE5700C6531A /* ResultCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ResultCollectionViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,6 +193,8 @@
 				C229BE07210777FC00A9258D /* EmptyStateViewController.xib */,
 				C276793E2125A4CD00C6531A /* LoadingViewController.swift */,
 				C276793F2125A4CD00C6531A /* LoadingViewController.xib */,
+				C27679482125CE5700C6531A /* ResultCollectionViewCell.swift */,
+				C27679492125CE5700C6531A /* ResultCollectionViewCell.xib */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -208,6 +216,7 @@
 				C229BDEF21061FE100A9258D /* MenuViewModel.swift */,
 				C229BE0A2107788700A9258D /* SearchViewModel.swift */,
 				C229BE102108B06C00A9258D /* PopularViewModel.swift */,
+				C27679462125CC9400C6531A /* ResultsViewModel.swift */,
 				C27679422125A60700C6531A /* LoadingViewModel.swift */,
 			);
 			path = ViewModel;
@@ -339,6 +348,7 @@
 				C229BDD421061EB300A9258D /* Assets.xcassets in Resources */,
 				C229BDFF21076DE200A9258D /* PopularViewController.xib in Resources */,
 				C229BE03210773B000A9258D /* ResultsViewController.xib in Resources */,
+				C276794B2125CE5700C6531A /* ResultCollectionViewCell.xib in Resources */,
 				C229BDFB21076D9B00A9258D /* SearchViewController.xib in Resources */,
 				C229BE09210777FC00A9258D /* EmptyStateViewController.xib in Resources */,
 				C229BDD221061EB100A9258D /* Main.storyboard in Resources */,
@@ -455,6 +465,7 @@
 			files = (
 				C229BE112108B06C00A9258D /* PopularViewModel.swift in Sources */,
 				C229BE142108B2FF00A9258D /* FlickrManager.swift in Sources */,
+				C276794A2125CE5700C6531A /* ResultCollectionViewCell.swift in Sources */,
 				C229BE052107756200A9258D /* CommonViewController.swift in Sources */,
 				C229BDFA21076D9B00A9258D /* SearchViewController.swift in Sources */,
 				C229BE192108C9AD00A9258D /* Decodable+Extensions.swift in Sources */,
@@ -462,6 +473,7 @@
 				C229BE0D2107789B00A9258D /* CommonState.swift in Sources */,
 				C27679432125A60700C6531A /* LoadingViewModel.swift in Sources */,
 				C229BDCD21061EB100A9258D /* MasterViewController.swift in Sources */,
+				C27679472125CC9400C6531A /* ResultsViewModel.swift in Sources */,
 				C229BE0F210779B200A9258D /* PhotoItem.swift in Sources */,
 				C229BDF5210620EB00A9258D /* Coordinator.swift in Sources */,
 				C229BDF72106220F00A9258D /* MenuItem.swift in Sources */,
