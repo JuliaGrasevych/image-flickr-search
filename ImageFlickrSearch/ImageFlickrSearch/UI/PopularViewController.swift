@@ -8,5 +8,13 @@
 
 import UIKit
 
-class PopularViewController: CommonViewController {
+class PopularViewController: UIViewController, CommonViewController {
+    typealias ViewModelType = PopularViewModel
+    
+    @IBOutlet var resultContainerView: UIView!
+    
+    var resultsVC: ResultsViewController = ResultsViewController()
+    var noResultsVC: EmptyStateViewController = EmptyStateViewController()
+    var loadingVC: LoadingViewController = LoadingViewController()
+    var viewModel: PopularViewModel = PopularViewModel()
 }

@@ -9,12 +9,18 @@
 import UIKit
 import RxSwift
 
-class SearchViewController: CommonViewController {
-    
+class SearchViewController: UIViewController, CommonViewController {
+    typealias ViewModelType = SearchViewModel
+
+    @IBOutlet var resultContainerView: UIView!
     @IBOutlet private var searchField: UISearchBar!
     
+    var resultsVC: ResultsViewController = ResultsViewController()
+    var noResultsVC: EmptyStateViewController = EmptyStateViewController()
+    var loadingVC: LoadingViewController = LoadingViewController()
+    
+    var viewModel: SearchViewModel = SearchViewModel()
     let disposeBag = DisposeBag()
-    let viewModel = SearchViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,5 +34,10 @@ class SearchViewController: CommonViewController {
         .asDriver()
         .drive(viewModel.searchTerm)
         .disposed(by: disposeBag)
+        
+        viewModel.searchTerm.asObservable()
+            .bind(to: loadingVC.viewModel.text)
+            .disposed(by: self.disposeBag)
+        
     }
 }

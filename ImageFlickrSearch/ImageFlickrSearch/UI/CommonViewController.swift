@@ -8,26 +8,30 @@
 
 import UIKit
 
-class CommonViewController: UIViewController {
-
-    @IBOutlet private var resultContainerView: UIView!
-    private var resultsVC: ResultsViewController = ResultsViewController()
-    private var noResultsVC: EmptyStateViewController = EmptyStateViewController()
+protocol CommonViewController where Self: UIViewController {
+    associatedtype ViewModelType
     
+    var resultContainerView: UIView! { get set }
+    var resultsVC: ResultsViewController { get set }
+    var noResultsVC: EmptyStateViewController { get set }
+    var loadingVC: LoadingViewController { get set }
+    var viewModel: ViewModelType { get set }
+    
+    func setupResults(state: CommonState)
+}
+extension CommonViewController {
     func setupResults(state: CommonState) {
-        DispatchQueue.main.async {
-            switch state {
-            case .empty:
-                self.setupChild(viewController: self.noResultsVC)
-            case .loading:
-                break
-            case .loaded:
-                self.setupChild(viewController: self.resultsVC)
-            }
+        switch state {
+        case .empty:
+            setupChild(viewController: noResultsVC)
+        case .loading:
+            setupChild(viewController: loadingVC)
+        case .loaded:
+            setupChild(viewController: resultsVC)
         }
     }
     
-    private func setupChild(viewController: UIViewController) {
+    func setupChild(viewController: UIViewController) {
         guard let vcView = viewController.view else {
             debugPrint("Couldn't instantiate view")
             return
