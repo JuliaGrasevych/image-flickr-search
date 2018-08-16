@@ -1,0 +1,27 @@
+PODS:
+  - Differentiator (3.0.2)
+  - FlickrKit (1.0.9)
+  - RxCocoa (4.2.0):
+    - RxSwift (~> 4.0)
+  - RxDataSources (3.0.2):
+    - Differentiator (~> 3.0)
+    - RxCocoa (~> 4.0)
+    - RxSwift (~> 4.0)
+  - RxSwift (4.2.0)
+
+DEPENDENCIES:
+  - FlickrKit (~> 1.0)
+  - RxCocoa (~> 4.2)
+  - RxDataSources (~> 3.0)
+  - RxSwift (~> 4.2)
+
+SPEC CHECKSUMS:
+  Differentiator: a87be69eba49ec4ab460c7671143ee3a9eececfd
+  FlickrKit: 79ffaf64a12293ba2b1aa8a2e53a4958cb113256
+  RxCocoa: 0b54909c902e1e581212a03e690bbd94032d8baa
+  RxDataSources: cb7c31e652a87ebb919da45f716bbb87b3765f6b
+  RxSwift: 99e10317ddfcc7fbe01356aafd118fde4a0be104
+
+PODFILE CHECKSUM: 22e1623bc48a862bd944517a79d324c1ca87cddf
+
+COCOAPODS: 1.2.0
