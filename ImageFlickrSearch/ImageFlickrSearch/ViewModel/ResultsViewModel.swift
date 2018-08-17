@@ -14,11 +14,12 @@ class ResultsViewModel {
     
     var items: Observable<[SectionModel<Int, PhotoItem>]> {
         return resultItems.asObservable()
+            .map({ $0?.items })
             .filter({ $0 != nil })
             .map { items in
             return [SectionModel(model: 0, items: items!)]
         }
     }
     
-    let resultItems: Variable<[PhotoItem]?> = Variable(nil)
+    let resultItems: Variable<PhotoItemsCollection?> = Variable(nil)
 }

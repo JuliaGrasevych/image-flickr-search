@@ -13,8 +13,8 @@ class PopularViewController: UIViewController, CommonViewController {
     
     @IBOutlet var resultContainerView: UIView!
     
-    var resultsVC: ResultsViewController = ResultsViewController()
-    var noResultsVC: EmptyStateViewController = EmptyStateViewController()
-    var loadingVC: LoadingViewController = LoadingViewController()
-    var viewModel: PopularViewModel = PopularViewModel()
+    var resultsVC = ResultsViewController()
+    var noResultsVC = EmptyStateViewController()
+    var loadingVC = LoadingViewController()
+    var viewModel = PopularViewModel()
 }

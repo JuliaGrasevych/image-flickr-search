@@ -1,5 +1,5 @@
 //
-//  PhototItemsCollection.swift
+//  PhotoItemsCollection.swift
 //  ImageFlickrSearch
 //
 //  Created by Iuliia.Grasevych on 8/16/18.

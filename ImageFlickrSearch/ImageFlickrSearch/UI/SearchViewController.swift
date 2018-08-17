@@ -15,9 +15,9 @@ class SearchViewController: UIViewController, CommonViewController {
     @IBOutlet var resultContainerView: UIView!
     @IBOutlet private var searchField: UISearchBar!
     
-    var resultsVC: ResultsViewController = ResultsViewController()
-    var noResultsVC: EmptyStateViewController = EmptyStateViewController()
-    var loadingVC: LoadingViewController = LoadingViewController()
+    var resultsVC = ResultsViewController()
+    var noResultsVC = EmptyStateViewController()
+    var loadingVC = LoadingViewController()
     
     var viewModel: SearchViewModel = SearchViewModel()
     let disposeBag = DisposeBag()
@@ -31,17 +31,16 @@ class SearchViewController: UIViewController, CommonViewController {
             .disposed(by: disposeBag)
         
         searchField.rx.text
-        .asDriver()
-        .drive(viewModel.searchTerm)
-        .disposed(by: disposeBag)
+            .asDriver()
+            .drive(viewModel.searchTerm)
+            .disposed(by: disposeBag)
         
         viewModel.searchTerm.asObservable()
             .bind(to: loadingVC.viewModel.text)
             .disposed(by: self.disposeBag)
         
         viewModel.items.asObservable()
-            .map({ return $0?.items })
             .bind(to: resultsVC.viewModel.resultItems)
-            .disposed(by: self.disposeBag)
+            .disposed(by: disposeBag)
     }
 }
