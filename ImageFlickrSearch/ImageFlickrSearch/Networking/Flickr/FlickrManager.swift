@@ -9,6 +9,12 @@
 import UIKit
 import FlickrKit
 
+enum FlickrError: Error {
+    case flickrKit(error: Error)
+    case invalidStructure
+    case decodingFailed
+}
+
 class FlickrManager: NSObject {
 
     static let sharedInstance = FlickrManager()

@@ -45,6 +45,7 @@
 		C27EEB22212B06DD00F5A83E /* HTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27EEB21212B06DD00F5A83E /* HTTP.swift */; };
 		C2982F6D213441A20049B1CC /* ImageInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2982F6C213441A20049B1CC /* ImageInfoView.swift */; };
 		C2982F6F213443200049B1CC /* NSLayoutConstraint+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2982F6E213443200049B1CC /* NSLayoutConstraint+Utils.swift */; };
+		C2982F7121344CEE0049B1CC /* FlickrRequestCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2982F7021344CEE0049B1CC /* FlickrRequestCommand.swift */; };
 		D0860E5CFD142CB8CD5CED96 /* Pods_ImageFlickrSearchTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3753F9FC4FD987832F4C78D7 /* Pods_ImageFlickrSearchTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -106,6 +107,7 @@
 		C27EEB21212B06DD00F5A83E /* HTTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTP.swift; sourceTree = "<group>"; };
 		C2982F6C213441A20049B1CC /* ImageInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageInfoView.swift; sourceTree = "<group>"; };
 		C2982F6E213443200049B1CC /* NSLayoutConstraint+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Utils.swift"; sourceTree = "<group>"; };
+		C2982F7021344CEE0049B1CC /* FlickrRequestCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrRequestCommand.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -286,6 +288,7 @@
 		C27EEB1E212AFBF200F5A83E /* Flickr */ = {
 			isa = PBXGroup;
 			children = (
+				C2982F7021344CEE0049B1CC /* FlickrRequestCommand.swift */,
 				C229BE132108B2FF00A9258D /* FlickrManager.swift */,
 				C229BE152108C8E500A9258D /* FlickrSearchRequest.swift */,
 			);
@@ -511,6 +514,7 @@
 				C27EEB20212AFC1C00F5A83E /* Request.swift in Sources */,
 				C229BE142108B2FF00A9258D /* FlickrManager.swift in Sources */,
 				C276794A2125CE5700C6531A /* ResultCollectionViewCell.swift in Sources */,
+				C2982F7121344CEE0049B1CC /* FlickrRequestCommand.swift in Sources */,
 				C229BE052107756200A9258D /* CommonViewController.swift in Sources */,
 				C229BDFA21076D9B00A9258D /* SearchViewController.swift in Sources */,
 				C229BE192108C9AD00A9258D /* Codable+Extensions.swift in Sources */,

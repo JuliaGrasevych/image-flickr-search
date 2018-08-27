@@ -56,10 +56,13 @@ class SearchViewModel {
     }
     
     private func search(_ searchText: String) {
-        FlickrSearchRequest(searchText: searchText).start { (result, error) in
-            if let result = result {
-                self.items.value = PhotoItemsCollection(items: result, searchTerm: searchText)
-            }
+        FlickrSearchRequest(searchText: searchText)
+            .start { (result, error) in
+                if let result = result {
+                    self.items.value = PhotoItemsCollection(items: result, searchTerm: searchText)
+                } else {
+                    self.items.value = nil
+                }
         }
     }
 }

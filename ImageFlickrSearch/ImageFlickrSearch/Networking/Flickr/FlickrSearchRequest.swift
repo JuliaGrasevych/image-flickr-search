@@ -8,21 +8,26 @@
 
 import UIKit
 
-class FlickrSearchRequest {
+class FlickrSearchRequest: FlickrRequestCommand {
+    typealias Handler = ([PhotoItem]?, FlickrError?) -> Void
+
     let searchText: String
     
     init(searchText: String) {
         self.searchText = searchText
     }
     
-    func start(completion: @escaping ([PhotoItem]?, Error?) -> Void) {
+    func start(completion: @escaping Handler) {
         FlickrManager.sharedInstance.search(searchText) { (result, error) in
-            guard let photos = result?["photos"] as? [String: Any],
-            let photoArray = photos["photo"] as? [[String: Any]] else {
-                completion(nil, error)
+            if let error = error {
+                completion(nil, .flickrKit(error: error))
                 return
             }
-            
+            guard let photos = result?["photos"] as? [String: Any],
+                let photoArray = photos["photo"] as? [[String: Any]] else {
+                    completion(nil, .invalidStructure)
+                    return
+            }
             let items = photoArray.compactMap({ photo -> PhotoItem? in
                 let item: PhotoItem? = PhotoItem.fill(withDictionary: photo)
                 if let item = item {
@@ -30,7 +35,7 @@ class FlickrSearchRequest {
                 }
                 return item
             })
-            completion(items, error)
+            completion(items, nil)
         }
     }
 }
