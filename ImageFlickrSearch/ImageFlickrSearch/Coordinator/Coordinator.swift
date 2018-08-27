@@ -21,7 +21,7 @@ class Coordinator {
 
 extension Coordinator: MenuItemControllerDelegate {
     func didSelect(_ item: MenuItem) {
-        let vc: UIViewController = {
+        let viewController: UIViewController = {
             switch item {
             case .search:
                 return instantiateSearchViewController(with: splitVC.displayModeButtonItem)
@@ -29,21 +29,21 @@ extension Coordinator: MenuItemControllerDelegate {
                 return instantiatePopularViewController(with: splitVC.displayModeButtonItem)
             }
         }()
-        vc.title = item.description
-        splitVC.showDetailViewController(vc, sender: nil)
+        viewController.title = item.description
+        splitVC.showDetailViewController(viewController, sender: nil)
     }
     
     func instantiateSearchViewController(with leftBarButtonItem: UIBarButtonItem) -> SearchViewController {
-        let vc = SearchViewController()
-        vc.navigationItem.leftBarButtonItem = leftBarButtonItem
-        vc.navigationItem.leftItemsSupplementBackButton = true
-        return vc
+        let viewController = SearchViewController()
+        viewController.navigationItem.leftBarButtonItem = leftBarButtonItem
+        viewController.navigationItem.leftItemsSupplementBackButton = true
+        return viewController
     }
     
     func instantiatePopularViewController(with leftBarButtonItem: UIBarButtonItem) -> PopularViewController {
-        let vc = PopularViewController()
-        vc.navigationItem.leftBarButtonItem = leftBarButtonItem
-        vc.navigationItem.leftItemsSupplementBackButton = true
-        return vc
+        let viewController = PopularViewController()
+        viewController.navigationItem.leftBarButtonItem = leftBarButtonItem
+        viewController.navigationItem.leftItemsSupplementBackButton = true
+        return viewController
     }
 }

@@ -43,8 +43,14 @@ extension CommonViewController {
         }
         vcView.translatesAutoresizingMaskIntoConstraints = false
         resultContainerView.addSubview(vcView)
-        let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[resultView]|", options: .alignAllLeading, metrics: nil, views: ["resultView": vcView])
-        let constraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[resultView]|", options: .alignAllLeading, metrics: nil, views: ["resultView": vcView])
+        let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[resultView]|",
+                                                          options: .alignAllLeading,
+                                                          metrics: nil,
+                                                          views: ["resultView": vcView])
+        let constraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[resultView]|",
+                                                          options: .alignAllLeading,
+                                                          metrics: nil,
+                                                          views: ["resultView": vcView])
         NSLayoutConstraint.activate(constraintsH + constraintsV)
         addChildViewController(viewController)
         viewController.didMove(toParentViewController: self)

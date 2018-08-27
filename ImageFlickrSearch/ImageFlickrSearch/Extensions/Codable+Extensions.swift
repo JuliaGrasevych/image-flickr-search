@@ -34,7 +34,7 @@ extension Encodable {
         guard let jsonData = try? coder.encode(self) else {
             return nil
         }
-        return (try? JSONSerialization.jsonObject(with: jsonData, options: .allowFragments)) as? [String : AnyObject]
+        return (try? JSONSerialization.jsonObject(with: jsonData, options: .allowFragments)) as? [String: AnyObject]
     }
     var jsonArray: [AnyObject]? {
         let coder = JSONEncoder()

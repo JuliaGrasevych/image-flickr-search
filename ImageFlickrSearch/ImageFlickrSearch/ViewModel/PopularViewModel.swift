@@ -20,13 +20,13 @@ class PopularViewModel {
         state = itemsObservable.flatMapLatest({ items -> Observable<CommonState> in
             guard let items = items else {
                 // if no items check if there's a search in progress
-                return Observable<CommonState>.create({ (o: AnyObserver<CommonState>) -> Disposable in
+                return Observable<CommonState>.create({ (observer: AnyObserver<CommonState>) -> Disposable in
                     guard false//let searchTerm = self.searchTerm.value //TODO: bind to status from network service
                         else {
-                            o.onNext(.empty)
+                            observer.onNext(.empty)
                             return Disposables.create()
                     }
-                    o.onNext(.loading)
+                    observer.onNext(.loading)
                     return Disposables.create()
                 })
             }

@@ -49,4 +49,3 @@ extension PhotoItemsCollection: Equatable {
         return false
     }
 }
-

@@ -36,7 +36,7 @@ class MasterViewController: UITableViewController {
 
     var dataSource: RxTableViewSectionedReloadDataSource<SectionModel<Int, MenuItem>> {
         return RxTableViewSectionedReloadDataSource<SectionModel<Int, MenuItem>>(
-            configureCell: { (dataSource, table, idxPath, item) in
+            configureCell: { (_, table, idxPath, item) in
                 let cell = table.dequeueReusableCell(withIdentifier: "Cell", for: idxPath)
                 cell.textLabel?.text = item.description
                 return cell
@@ -47,4 +47,3 @@ class MasterViewController: UITableViewController {
         super.viewWillAppear(animated)
     }
 }
-

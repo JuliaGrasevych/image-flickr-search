@@ -19,7 +19,8 @@ class ResultsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.dataSource = nil
-        collectionView.register(UINib(nibName: "ResultCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ResultCollectionViewCell")
+        collectionView.register(UINib(nibName: "ResultCollectionViewCell", bundle: nil),
+                                forCellWithReuseIdentifier: "ResultCollectionViewCell")
         viewModel.items.asObservable()
             .bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
@@ -27,10 +28,10 @@ class ResultsViewController: UIViewController {
     
     var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<Int, PhotoItem>> {
         return RxCollectionViewSectionedReloadDataSource<SectionModel<Int, PhotoItem>>(
-            configureCell: { (dataSource, table, idxPath, item) in
-                let cell = table.dequeueReusableCell(withReuseIdentifier: "ResultCollectionViewCell", for: idxPath) as! ResultCollectionViewCell
-                cell.render(item, imageDriver: self.viewModel.driver(for: item))
-                return cell
+            configureCell: { (_, table, idxPath, item) in
+                let cell = table.dequeueReusableCell(withReuseIdentifier: "ResultCollectionViewCell", for: idxPath) as? ResultCollectionViewCell
+                cell?.render(item, imageDriver: self.viewModel.driver(for: item))
+                return cell ?? UICollectionViewCell()
         })
     }
 }

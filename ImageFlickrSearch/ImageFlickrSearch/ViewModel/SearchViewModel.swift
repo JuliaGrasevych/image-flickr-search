@@ -28,18 +28,19 @@ class SearchViewModel {
             .distinctUntilChanged()
             .debounce(1, scheduler: SerialDispatchQueueScheduler.init(internalSerialQueueName: "my.network.queue"))
             .share()
-        state = Observable.combineLatest(itemsObservable, searchTermObservable, resultSelector: { (items, search) -> CommonState in
-            guard let items = items else {
-                if let search = search, !search.isEmpty {
-                    // if no items check if there's a search in progress
-                    return .loading
-                }
-                return .empty
-            }
-            if items.searchTerm != search {
-                return .loading
-            }
-            return .loaded
+        state = Observable.combineLatest(itemsObservable, searchTermObservable,
+                                         resultSelector: { (items, search) -> CommonState in
+                                            guard let items = items else {
+                                                if let search = search, !search.isEmpty {
+                                                    // if no items check if there's a search in progress
+                                                    return .loading
+                                                }
+                                                return .empty
+                                            }
+                                            if items.searchTerm != search {
+                                                return .loading
+                                            }
+                                            return .loaded
         })
             .observeOn(MainScheduler.instance)
         
