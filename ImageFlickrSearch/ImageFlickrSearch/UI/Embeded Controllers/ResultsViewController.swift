@@ -29,7 +29,7 @@ class ResultsViewController: UIViewController {
         return RxCollectionViewSectionedReloadDataSource<SectionModel<Int, PhotoItem>>(
             configureCell: { (dataSource, table, idxPath, item) in
                 let cell = table.dequeueReusableCell(withReuseIdentifier: "ResultCollectionViewCell", for: idxPath) as! ResultCollectionViewCell
-                cell.label.text = item.title
+                cell.render(item, imageDriver: self.viewModel.driver(for: item))
                 return cell
         })
     }

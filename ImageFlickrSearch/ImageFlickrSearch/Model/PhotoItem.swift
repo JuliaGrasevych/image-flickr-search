@@ -9,6 +9,18 @@
 import UIKit
 
 class PhotoItem: NSObject, Codable {
+    enum CodingKeys: String, CodingKey {
+        case id
+        case owner
+        case secret
+        case server
+        case farm
+        case title
+        case ispublic
+        case isfriend
+        case isfamily
+    }
+    
     var id: String?
     var owner: String?
     var secret: String?
@@ -18,4 +30,7 @@ class PhotoItem: NSObject, Codable {
     var ispublic: Int?
     var isfriend: Int?
     var isfamily: Int?
+    
+    var url: URL?
+    var thumbnailImage: UIImage? // observable
 }

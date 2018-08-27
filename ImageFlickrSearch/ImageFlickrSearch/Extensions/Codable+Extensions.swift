@@ -1,5 +1,5 @@
 //
-//  Decodable+Extensions.swift
+//  Codable+Extensions.swift
 //  ImageFlickrSearch
 //
 //  Created by Iuliia.Grasevych on 7/25/18.
@@ -24,5 +24,24 @@ extension Decodable {
             print(exception)
             return nil
         }
+    }
+}
+
+extension Encodable {
+    var jsonDictionary: [String: AnyObject]? {
+        let coder = JSONEncoder()
+        coder.dateEncodingStrategy = .secondsSince1970
+        guard let jsonData = try? coder.encode(self) else {
+            return nil
+        }
+        return (try? JSONSerialization.jsonObject(with: jsonData, options: .allowFragments)) as? [String : AnyObject]
+    }
+    var jsonArray: [AnyObject]? {
+        let coder = JSONEncoder()
+        coder.dateEncodingStrategy = .secondsSince1970
+        guard let jsonData = try? coder.encode(self) else {
+            return nil
+        }
+        return (try? JSONSerialization.jsonObject(with: jsonData, options: .allowFragments)) as? [AnyObject]
     }
 }

@@ -24,7 +24,11 @@ class FlickrSearchRequest {
             }
             
             let items = photoArray.compactMap({ photo -> PhotoItem? in
-                return PhotoItem.fill(withDictionary: photo)
+                let item: PhotoItem? = PhotoItem.fill(withDictionary: photo)
+                if let item = item {
+                    item.url = FlickrManager.sharedInstance.url(from: item)
+                }
+                return item
             })
             completion(items, error)
         }

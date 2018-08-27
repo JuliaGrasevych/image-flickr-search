@@ -25,6 +25,13 @@ class FlickrManager: NSObject {
     func search(_ searchText: String, completion: @escaping ([String: Any]?, Error?) -> Void) {
         let searchRequest = FKFlickrPhotosSearch()
         searchRequest.text = searchText
+        searchRequest.per_page = "10"
         flickrKit.call(searchRequest, completion: completion)
+    }
+    func url(from photoItem: PhotoItem) -> URL? {
+        guard let photoDictionary = photoItem.jsonDictionary else {
+            return nil
+        }
+        return flickrKit.photoURL(for: .thumbnail100, fromPhotoDictionary: photoDictionary)
     }
 }

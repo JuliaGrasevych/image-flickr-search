@@ -8,10 +8,11 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 import RxDataSources
 
 class ResultsViewModel {
-    
+    private let httpClient = FlickrHTTPClient()
     var items: Observable<[SectionModel<Int, PhotoItem>]> {
         return resultItems.asObservable()
             .map({ $0?.items })
@@ -22,4 +23,11 @@ class ResultsViewModel {
     }
     
     let resultItems: Variable<PhotoItemsCollection?> = Variable(nil)
+    
+    func driver(for item: PhotoItem) -> Driver<UIImage?> {
+        guard let url = item.url else {
+            return Driver.just(nil)
+        }
+        return httpClient.rx_image(url: url)
+    }
 }
