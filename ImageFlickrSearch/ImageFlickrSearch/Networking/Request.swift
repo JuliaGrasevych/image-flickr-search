@@ -36,19 +36,3 @@ struct Request {
         self.init(url: url, method: .GET, parameters: nil, headers: nil, body: nil)
     }
 }
-//
-//private struct MutableRequest {
-//    var request: Request
-//}
-
-protocol RequestGenerator {
-    func request(with method: HTTPMethod) -> Request
-    func withJsonSupport(request: Request) -> Request
-    
-    func generateRequest(method: HTTPMethod) -> Request
-}
-
-infix operator |>: AdditionPrecedence
-func |> <T, U>(value: T, function: ((T) -> U)) -> U {
-    return function(value)
-}
