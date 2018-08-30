@@ -24,6 +24,8 @@ class SearchViewController: UIViewController, CommonViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        resultsVC.delegate = self
+        
         viewModel.state
             .subscribe(onNext: { state in
                 self.setupResults(state: state)
@@ -42,5 +44,14 @@ class SearchViewController: UIViewController, CommonViewController {
         viewModel.items.asObservable()
             .bind(to: resultsVC.viewModel.resultItems)
             .disposed(by: disposeBag)
+    }
+}
+
+extension SearchViewController: ResultsViewControllerDelegate {
+    func fetchResults(for resultsVC: ResultsViewController) {
+        viewModel.fetchResults()
+    }
+    func isLoadingCell(_ indexPath: IndexPath) -> Bool {
+        return indexPath.row >= viewModel.currentCount
     }
 }

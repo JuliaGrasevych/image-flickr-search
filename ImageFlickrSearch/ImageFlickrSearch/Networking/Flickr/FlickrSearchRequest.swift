@@ -10,32 +10,37 @@ import UIKit
 
 class FlickrSearchRequest: FlickrRequestCommand {
     typealias Handler = ([PhotoItem]?, FlickrError?) -> Void
-
-    let searchText: String
     
-    init(searchText: String) {
-        self.searchText = searchText
+    struct Parameters {
+        var searchText: String
+        var itemsPerPage: Int
+        var page: Int
+    }
+    
+    let parameters: Parameters
+    private var operation: Operation?
+    
+    init(parameters: Parameters) {
+        self.parameters = parameters
     }
     
     func start(completion: @escaping Handler) {
-        FlickrManager.sharedInstance.search(searchText) { (result, error) in
+        operation = FlickrManager.sharedInstance.search(parameters) { (result, error) in
             if let error = error {
                 completion(nil, .flickrKit(error: error))
                 return
             }
-            guard let photos = result?["photos"] as? [String: Any],
-                let photoArray = photos["photo"] as? [[String: Any]] else {
+            guard let result = result?["photos"] as? [String: Any],
+                let photos: Photos = Photos.fill(withDictionary: result),
+                let photoArray = photos.photoItems else {
                     completion(nil, .invalidStructure)
                     return
             }
-            let items = photoArray.compactMap({ photo -> PhotoItem? in
-                let item: PhotoItem? = PhotoItem.fill(withDictionary: photo)
-                if let item = item {
-                    item.url = FlickrManager.sharedInstance.url(from: item)
-                }
-                return item
-            })
-            completion(items, nil)
+            photoArray.forEach({ $0.url = FlickrManager.sharedInstance.url(from: $0) })
+            completion(photoArray, nil)
         }
+    }
+    func cancel() {
+        operation?.cancel()
     }
 }

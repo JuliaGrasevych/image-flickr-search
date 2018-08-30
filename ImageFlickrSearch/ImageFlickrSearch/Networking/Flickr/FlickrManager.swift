@@ -28,11 +28,12 @@ class FlickrManager: NSObject {
         flickrKit.initialize(withAPIKey: apiKey, sharedSecret: sharedSecret)
     }
     
-    func search(_ searchText: String, completion: @escaping ([String: Any]?, Error?) -> Void) {
+    func search(_ searchParameters: FlickrSearchRequest.Parameters, completion: @escaping ([String: Any]?, Error?) -> Void) -> Operation {
         let searchRequest = FKFlickrPhotosSearch()
-        searchRequest.text = searchText
-        searchRequest.per_page = "10"
-        flickrKit.call(searchRequest, completion: completion)
+        searchRequest.text = searchParameters.searchText
+        searchRequest.per_page = "\(searchParameters.itemsPerPage)"
+        searchRequest.page = "\(searchParameters.page)"
+        return flickrKit.call(searchRequest, completion: completion)
     }
     func url(from photoItem: PhotoItem) -> URL? {
         guard let photoDictionary = photoItem.jsonDictionary else {

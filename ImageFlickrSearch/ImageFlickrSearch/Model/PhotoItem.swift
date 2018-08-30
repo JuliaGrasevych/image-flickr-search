@@ -8,6 +8,28 @@
 
 import UIKit
 
+class Photos: Codable {
+    enum CodingKeys: String, CodingKey {
+        case page
+        case pages
+        case itemsPerPage = "perpage"
+        case total
+        case photoItems = "photo"
+    }
+    var page: Int?
+    var pages: Int?
+    var itemsPerPage: Int?
+    var total: String?
+    var photoItems: [PhotoItem]?
+    
+    var totalCount: Int? {
+        if let total = total {
+           return Int(total)
+        }
+        return nil
+    }
+}
+
 class PhotoItem: NSObject, Codable {
     enum CodingKeys: String, CodingKey {
         case id

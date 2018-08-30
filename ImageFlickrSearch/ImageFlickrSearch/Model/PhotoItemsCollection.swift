@@ -17,6 +17,12 @@ class PhotoItemsCollection {
         self.items = items
         self.searchTerm = searchTerm
     }
+    func append(contentsOf collection: PhotoItemsCollection?) {
+        guard let collectionItems = collection?.items else {
+            return
+        }
+        self.items?.append(contentsOf: collectionItems)
+    }
 }
 
 extension PhotoItemsCollection: Sequence, IteratorProtocol {
