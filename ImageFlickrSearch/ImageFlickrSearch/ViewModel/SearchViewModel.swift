@@ -8,11 +8,12 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 class SearchViewModel {
     
-    let items: Variable<PhotoItemsCollection?> = Variable(nil)
-    let searchTerm: Variable<String?> = Variable(nil)
+    var items: BehaviorRelay<PhotoItemsCollection?> = BehaviorRelay(value: nil)
+    let searchTerm: BehaviorRelay<String?> = BehaviorRelay(value: nil)
     let state: Observable<CommonState>
     
     var currentCount = 0
@@ -22,7 +23,7 @@ class SearchViewModel {
     private let disposeBag = DisposeBag()
     
     private var request: FlickrSearchRequest?
-    private var pageNumber = 0
+    private var pageNumber = 1
     private var pageCount = 0
     private var totalCount = 0
     private var itemsPerPage = 10
@@ -54,10 +55,10 @@ class SearchViewModel {
         
         // subscribe
         searchTermObservable.subscribe(onNext: { string in
-            self.pageNumber = 0
+            self.removePreviousResults()
             guard let string = string,
             !string.isEmpty else {
-                self.items.value = nil
+                self.items.accept(nil)
                 return
             }
             self.search(string)
@@ -72,8 +73,17 @@ class SearchViewModel {
         pageNumber += 1
         search(searchTerm, page: pageNumber)
     }
-    
-    private func search(_ searchText: String, page: Int = 0) {
+    private func removePreviousResults() {
+        pageNumber = 1
+        pageCount = 0
+        totalCount = 0
+        currentCount = 0
+    }
+    private func search(_ searchText: String, page: Int = 1) {
+        // don't cancel request when it's loading next pages
+        if request?.isExecuting == true && page > 1 {
+            return
+        }
         request?.cancel()
         let searchParameters = FlickrSearchRequest.Parameters(searchText: searchText,
                                                               itemsPerPage: itemsPerPage,
@@ -81,12 +91,20 @@ class SearchViewModel {
         request = FlickrSearchRequest(parameters: searchParameters)
         request?.start { (result, error) in
             let resultItems: PhotoItemsCollection? = {
-                return PhotoItemsCollection(items: result, searchTerm: searchText)
+                return PhotoItemsCollection(items: result?.photoItems, searchTerm: searchText)
             }()
-            if page > 0 {
-                self.items.value?.append(contentsOf: resultItems)
+            self.totalCount = result?.totalCount ?? 0
+            self.pageNumber = result?.page ?? 1
+            self.pageCount = result?.pages ?? 0
+            self.currentCount += resultItems?.count ?? 0
+            if page > 1 {
+                let newArray = self.items.value
+                if let resultItems = resultItems {
+                    newArray?.append(contentsOf: resultItems)
+                }
+                self.items.accept(newArray)//value?.append(contentsOf: resultItems)
             } else {
-                self.items.value = resultItems
+                self.items.accept(resultItems)
             }
         }
     }

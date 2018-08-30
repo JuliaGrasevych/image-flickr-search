@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import RxCocoa
 import RxSwift
 
 class PopularViewModel {
-    let items: Variable<[PhotoItem]?> = Variable(nil)
+    let items: BehaviorRelay<[PhotoItem]?> = BehaviorRelay(value: nil)
     let state: Observable<CommonState>
     
     private let itemsObservable: Observable<[PhotoItem]?>

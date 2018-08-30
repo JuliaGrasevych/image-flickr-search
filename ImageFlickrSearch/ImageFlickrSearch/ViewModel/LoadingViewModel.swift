@@ -8,9 +8,10 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 
 class LoadingViewModel {
-    let text: Variable<String?> = Variable(nil)
+    let text: BehaviorRelay<String?> = BehaviorRelay(value: nil)
     let textObservable: Observable<String?>
     
     init() {

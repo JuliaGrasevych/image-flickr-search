@@ -11,5 +11,18 @@ import Foundation
 protocol FlickrRequestCommand {
     associatedtype Handler
     
+    var operation: Operation? { get set }
+    var isExecuting: Bool { get }
+    
     func start(completion: Handler)
+    func cancel()
+}
+
+extension FlickrRequestCommand {
+    func cancel() {
+        operation?.cancel()
+    }
+    var isExecuting: Bool {
+        return operation?.isExecuting ?? false
+    }
 }

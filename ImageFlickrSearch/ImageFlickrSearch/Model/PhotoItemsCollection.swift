@@ -7,16 +7,21 @@
 //
 
 import Foundation
+import RxSwift
 
 class PhotoItemsCollection {
-    private(set) var items: [PhotoItem]?
     var searchTerm: String
+    var count: Int? {
+        return items?.count
+    }
+    private(set) var items: [PhotoItem]?
     private var currentPosition = 0
     
     init(items: [PhotoItem]?, searchTerm: String) {
         self.items = items
         self.searchTerm = searchTerm
     }
+    
     func append(contentsOf collection: PhotoItemsCollection?) {
         guard let collectionItems = collection?.items else {
             return
