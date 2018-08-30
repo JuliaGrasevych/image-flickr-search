@@ -38,10 +38,12 @@
                     <constraints>
                         <constraint firstItem="zVf-rj-Hbg" firstAttribute="top" secondItem="e8f-DD-gUc" secondAttribute="top" constant="15" id="EzZ-E0-wCB"/>
                         <constraint firstItem="ROY-hz-jYi" firstAttribute="top" secondItem="zVf-rj-Hbg" secondAttribute="bottom" constant="10" id="FqQ-tE-SUG"/>
+                        <constraint firstItem="ROY-hz-jYi" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="e8f-DD-gUc" secondAttribute="leading" constant="20" symbolic="YES" id="HCy-tZ-j0g"/>
                         <constraint firstAttribute="width" constant="240" id="OFE-i2-vzF"/>
                         <constraint firstAttribute="bottom" secondItem="ROY-hz-jYi" secondAttribute="bottom" constant="15" id="Vcg-w0-0qk"/>
                         <constraint firstItem="zVf-rj-Hbg" firstAttribute="centerX" secondItem="e8f-DD-gUc" secondAttribute="centerX" id="g6m-FR-lkb"/>
                         <constraint firstItem="ROY-hz-jYi" firstAttribute="centerX" secondItem="e8f-DD-gUc" secondAttribute="centerX" id="iaz-og-VVh"/>
+                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ROY-hz-jYi" secondAttribute="trailing" constant="20" symbolic="YES" id="lMe-H5-juK"/>
                     </constraints>
                 </view>
             </subviews>

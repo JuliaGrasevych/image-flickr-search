@@ -14,6 +14,7 @@ class ResultCollectionViewCell: UICollectionViewCell {
     @IBOutlet var label: UILabel!
     @IBOutlet var imageView: ImageInfoView!
     
+    private var driverDisposable: Disposable?
     private let disposeBag = DisposeBag()
 
     override func prepareForReuse() {
@@ -28,13 +29,14 @@ class ResultCollectionViewCell: UICollectionViewCell {
     
     private func handle(driver: Driver<UIImage?>) {
         imageView.update(state: .loading("Loading..."))
-        driver.asObservable()
+        driverDisposable?.dispose()
+        driverDisposable = driver.asObservable()
             .subscribe(onNext: { imageIcon in
                 self.imageView.update(state: .loaded(imageIcon))
             }, onError: { error in
                 // handle error
                 self.imageView.update(state: .error("Oops!"))
             })
-            .disposed(by: disposeBag)
+        driverDisposable?.disposed(by: disposeBag)
     }
 }

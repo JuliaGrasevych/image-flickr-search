@@ -32,10 +32,10 @@ extension URLSession {
                                         error: $2)
             semaphore.signal()
         }
-        print("""
-            \(self.debugDescription) \(#function) -
-            request \(urlRequest)
-            """)
+//        print("""
+//            \(self.debugDescription) \(#function) -
+//            request \(urlRequest)
+//            """)
         self.dataTask(with: urlRequest, completionHandler: handler)
             .resume()
         _ = semaphore.wait()

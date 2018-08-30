@@ -39,6 +39,6 @@ class FlickrManager: NSObject {
         guard let photoDictionary = photoItem.jsonDictionary else {
             return nil
         }
-        return flickrKit.photoURL(for: .thumbnail100, fromPhotoDictionary: photoDictionary)
+        return flickrKit.photoURL(for: .medium800, fromPhotoDictionary: photoDictionary)
     }
 }

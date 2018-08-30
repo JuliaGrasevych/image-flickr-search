@@ -54,5 +54,4 @@ class PhotoItem: NSObject, Codable {
     var isfamily: Int?
     
     var url: URL?
-    var thumbnailImage: UIImage? // observable
 }
