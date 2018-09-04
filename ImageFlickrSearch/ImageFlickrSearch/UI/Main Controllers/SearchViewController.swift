@@ -19,7 +19,7 @@ class SearchViewController: UIViewController, CommonViewController {
     var noResultsVC = EmptyStateViewController()
     var loadingVC = LoadingViewController()
     
-    var viewModel: SearchViewModel = SearchViewModel()
+    var viewModel = SearchViewModel()
     let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -38,6 +38,13 @@ class SearchViewController: UIViewController, CommonViewController {
             .disposed(by: disposeBag)
         
         viewModel.searchTerm.asObservable()
+            .map { value -> String? in
+                if let value = value {
+                    return "Search for \"\(value)\""
+                } else {
+                    return nil
+                }
+            }
             .bind(to: loadingVC.viewModel.text)
             .disposed(by: self.disposeBag)
         

@@ -28,7 +28,7 @@ class ResultsViewController: UIViewController {
         collectionView.dataSource = nil
         collectionView.rx
             .prefetchItems
-            .bind {[unowned self] indexPaths in
+            .bind { [unowned self] indexPaths in
                 guard let delegate = self.delegate else {
                     return
                 }

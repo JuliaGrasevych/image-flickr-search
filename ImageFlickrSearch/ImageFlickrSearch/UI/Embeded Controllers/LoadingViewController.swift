@@ -17,7 +17,7 @@ class LoadingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.textObservable
+        viewModel.text.asObservable()
             .bind(to: textLabel.rx.text)
             .disposed(by: self.disposeBag)
     }

@@ -12,17 +12,4 @@ import RxCocoa
 
 class LoadingViewModel {
     let text: BehaviorRelay<String?> = BehaviorRelay(value: nil)
-    let textObservable: Observable<String?>
-    
-    init() {
-        textObservable = text.asObservable()
-            .map({ value -> String? in
-                if let value = value {
-                    return "Search for \"\(value)\""
-                } else {
-                    return nil
-                }
-            })
-        .share()
-    }
 }

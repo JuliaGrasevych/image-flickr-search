@@ -10,12 +10,12 @@ import Foundation
 import RxDataSources
 
 enum MenuItem: CustomStringConvertible {
-    case search, popular
+    case search, interesting
     
     var description: String {
         switch self {
         case .search: return "Search"
-        case .popular: return "Popular"
+        case .interesting: return "Interesting"
         }
     }
 }

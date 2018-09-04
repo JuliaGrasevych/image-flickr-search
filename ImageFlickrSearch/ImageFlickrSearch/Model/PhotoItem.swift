@@ -13,21 +13,14 @@ class Photos: Codable {
         case page
         case pages
         case itemsPerPage = "perpage"
-        case total
+        case totalCount = "total"
         case photoItems = "photo"
     }
     var page: Int?
     var pages: Int?
     var itemsPerPage: Int?
-    var total: String?
+    var totalCount: Int?
     var photoItems: [PhotoItem]?
-    
-    var totalCount: Int? {
-        if let total = total {
-           return Int(total)
-        }
-        return nil
-    }
 }
 
 class PhotoItem: NSObject, Codable {

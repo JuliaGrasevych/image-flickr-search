@@ -25,7 +25,7 @@ extension Coordinator: MenuItemControllerDelegate {
             switch item {
             case .search:
                 return instantiateSearchViewController(with: splitVC.displayModeButtonItem)
-            case .popular:
+            case .interesting:
                 return instantiatePopularViewController(with: splitVC.displayModeButtonItem)
             }
         }()
@@ -40,8 +40,8 @@ extension Coordinator: MenuItemControllerDelegate {
         return viewController
     }
     
-    func instantiatePopularViewController(with leftBarButtonItem: UIBarButtonItem) -> PopularViewController {
-        let viewController = PopularViewController()
+    func instantiatePopularViewController(with leftBarButtonItem: UIBarButtonItem) -> InterestingViewController {
+        let viewController = InterestingViewController()
         viewController.navigationItem.leftBarButtonItem = leftBarButtonItem
         viewController.navigationItem.leftItemsSupplementBackButton = true
         return viewController

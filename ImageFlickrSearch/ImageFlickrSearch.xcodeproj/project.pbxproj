@@ -15,6 +15,7 @@
 		A37DDED321354CB700ABFFDF /* URLRequest+Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37DDED221354CB700ABFFDF /* URLRequest+Request.swift */; };
 		A37DDED521354F8200ABFFDF /* GenericCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37DDED421354F8200ABFFDF /* GenericCache.swift */; };
 		A37DDED7213851A600ABFFDF /* UIImage+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37DDED6213851A600ABFFDF /* UIImage+Utils.swift */; };
+		A37DDEDB213E943000ABFFDF /* FlickrInterestingRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37DDEDA213E943000ABFFDF /* FlickrInterestingRequest.swift */; };
 		C229BDCB21061EB100A9258D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C229BDCA21061EB100A9258D /* AppDelegate.swift */; };
 		C229BDCD21061EB100A9258D /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C229BDCC21061EB100A9258D /* MasterViewController.swift */; };
 		C229BDD221061EB100A9258D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C229BDD021061EB100A9258D /* Main.storyboard */; };
@@ -26,8 +27,8 @@
 		C229BDF72106220F00A9258D /* MenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C229BDF62106220F00A9258D /* MenuItem.swift */; };
 		C229BDFA21076D9B00A9258D /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C229BDF821076D9B00A9258D /* SearchViewController.swift */; };
 		C229BDFB21076D9B00A9258D /* SearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C229BDF921076D9B00A9258D /* SearchViewController.xib */; };
-		C229BDFE21076DE200A9258D /* PopularViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C229BDFC21076DE200A9258D /* PopularViewController.swift */; };
-		C229BDFF21076DE200A9258D /* PopularViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C229BDFD21076DE200A9258D /* PopularViewController.xib */; };
+		C229BDFE21076DE200A9258D /* InterestingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C229BDFC21076DE200A9258D /* InterestingViewController.swift */; };
+		C229BDFF21076DE200A9258D /* InterestingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C229BDFD21076DE200A9258D /* InterestingViewController.xib */; };
 		C229BE02210773B000A9258D /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C229BE00210773B000A9258D /* ResultsViewController.swift */; };
 		C229BE03210773B000A9258D /* ResultsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C229BE01210773B000A9258D /* ResultsViewController.xib */; };
 		C229BE052107756200A9258D /* CommonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C229BE042107756200A9258D /* CommonViewController.swift */; };
@@ -36,7 +37,7 @@
 		C229BE0B2107788700A9258D /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C229BE0A2107788700A9258D /* SearchViewModel.swift */; };
 		C229BE0D2107789B00A9258D /* CommonState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C229BE0C2107789B00A9258D /* CommonState.swift */; };
 		C229BE0F210779B200A9258D /* PhotoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C229BE0E210779B200A9258D /* PhotoItem.swift */; };
-		C229BE112108B06C00A9258D /* PopularViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C229BE102108B06C00A9258D /* PopularViewModel.swift */; };
+		C229BE112108B06C00A9258D /* InterestingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C229BE102108B06C00A9258D /* InterestingViewModel.swift */; };
 		C229BE142108B2FF00A9258D /* FlickrManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C229BE132108B2FF00A9258D /* FlickrManager.swift */; };
 		C229BE162108C8E500A9258D /* FlickrSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C229BE152108C8E500A9258D /* FlickrSearchRequest.swift */; };
 		C229BE192108C9AD00A9258D /* Codable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C229BE182108C9AD00A9258D /* Codable+Extensions.swift */; };
@@ -80,6 +81,7 @@
 		A37DDED221354CB700ABFFDF /* URLRequest+Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+Request.swift"; sourceTree = "<group>"; };
 		A37DDED421354F8200ABFFDF /* GenericCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericCache.swift; sourceTree = "<group>"; };
 		A37DDED6213851A600ABFFDF /* UIImage+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Utils.swift"; sourceTree = "<group>"; };
+		A37DDEDA213E943000ABFFDF /* FlickrInterestingRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrInterestingRequest.swift; sourceTree = "<group>"; };
 		C229BDC721061EB100A9258D /* ImageFlickrSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFlickrSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C229BDCA21061EB100A9258D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C229BDCC21061EB100A9258D /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
@@ -95,8 +97,8 @@
 		C229BDF62106220F00A9258D /* MenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItem.swift; sourceTree = "<group>"; };
 		C229BDF821076D9B00A9258D /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		C229BDF921076D9B00A9258D /* SearchViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchViewController.xib; sourceTree = "<group>"; };
-		C229BDFC21076DE200A9258D /* PopularViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularViewController.swift; sourceTree = "<group>"; };
-		C229BDFD21076DE200A9258D /* PopularViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PopularViewController.xib; sourceTree = "<group>"; };
+		C229BDFC21076DE200A9258D /* InterestingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestingViewController.swift; sourceTree = "<group>"; };
+		C229BDFD21076DE200A9258D /* InterestingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InterestingViewController.xib; sourceTree = "<group>"; };
 		C229BE00210773B000A9258D /* ResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
 		C229BE01210773B000A9258D /* ResultsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ResultsViewController.xib; sourceTree = "<group>"; };
 		C229BE042107756200A9258D /* CommonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewController.swift; sourceTree = "<group>"; };
@@ -105,7 +107,7 @@
 		C229BE0A2107788700A9258D /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		C229BE0C2107789B00A9258D /* CommonState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonState.swift; sourceTree = "<group>"; };
 		C229BE0E210779B200A9258D /* PhotoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoItem.swift; sourceTree = "<group>"; };
-		C229BE102108B06C00A9258D /* PopularViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularViewModel.swift; sourceTree = "<group>"; };
+		C229BE102108B06C00A9258D /* InterestingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestingViewModel.swift; sourceTree = "<group>"; };
 		C229BE132108B2FF00A9258D /* FlickrManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrManager.swift; sourceTree = "<group>"; };
 		C229BE152108C8E500A9258D /* FlickrSearchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrSearchRequest.swift; sourceTree = "<group>"; };
 		C229BE182108C9AD00A9258D /* Codable+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Codable+Extensions.swift"; sourceTree = "<group>"; };
@@ -226,7 +228,7 @@
 			children = (
 				C229BDEF21061FE100A9258D /* MenuViewModel.swift */,
 				C229BE0A2107788700A9258D /* SearchViewModel.swift */,
-				C229BE102108B06C00A9258D /* PopularViewModel.swift */,
+				C229BE102108B06C00A9258D /* InterestingViewModel.swift */,
 				C27679462125CC9400C6531A /* ResultsViewModel.swift */,
 				C27679422125A60700C6531A /* LoadingViewModel.swift */,
 			);
@@ -275,8 +277,8 @@
 				C229BE042107756200A9258D /* CommonViewController.swift */,
 				C229BDF821076D9B00A9258D /* SearchViewController.swift */,
 				C229BDF921076D9B00A9258D /* SearchViewController.xib */,
-				C229BDFC21076DE200A9258D /* PopularViewController.swift */,
-				C229BDFD21076DE200A9258D /* PopularViewController.xib */,
+				C229BDFC21076DE200A9258D /* InterestingViewController.swift */,
+				C229BDFD21076DE200A9258D /* InterestingViewController.xib */,
 			);
 			path = "Main Controllers";
 			sourceTree = "<group>";
@@ -308,9 +310,10 @@
 		C27EEB1E212AFBF200F5A83E /* Flickr */ = {
 			isa = PBXGroup;
 			children = (
-				C2982F7021344CEE0049B1CC /* FlickrRequestCommand.swift */,
 				C229BE132108B2FF00A9258D /* FlickrManager.swift */,
+				C2982F7021344CEE0049B1CC /* FlickrRequestCommand.swift */,
 				C229BE152108C8E500A9258D /* FlickrSearchRequest.swift */,
+				A37DDEDA213E943000ABFFDF /* FlickrInterestingRequest.swift */,
 				A37DDECE21354C3F00ABFFDF /* FlickrHTTPClient.swift */,
 			);
 			path = Flickr;
@@ -415,7 +418,7 @@
 			files = (
 				C229BDD721061EB300A9258D /* LaunchScreen.storyboard in Resources */,
 				C229BDD421061EB300A9258D /* Assets.xcassets in Resources */,
-				C229BDFF21076DE200A9258D /* PopularViewController.xib in Resources */,
+				C229BDFF21076DE200A9258D /* InterestingViewController.xib in Resources */,
 				C229BE03210773B000A9258D /* ResultsViewController.xib in Resources */,
 				C276794B2125CE5700C6531A /* ResultCollectionViewCell.xib in Resources */,
 				C229BDFB21076D9B00A9258D /* SearchViewController.xib in Resources */,
@@ -546,7 +549,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C229BE112108B06C00A9258D /* PopularViewModel.swift in Sources */,
+				C229BE112108B06C00A9258D /* InterestingViewModel.swift in Sources */,
 				C27EEB20212AFC1C00F5A83E /* Request.swift in Sources */,
 				C229BE142108B2FF00A9258D /* FlickrManager.swift in Sources */,
 				C276794A2125CE5700C6531A /* ResultCollectionViewCell.swift in Sources */,
@@ -568,7 +571,7 @@
 				C229BDF5210620EB00A9258D /* Coordinator.swift in Sources */,
 				C229BDF72106220F00A9258D /* MenuItem.swift in Sources */,
 				C27679402125A4CD00C6531A /* LoadingViewController.swift in Sources */,
-				C229BDFE21076DE200A9258D /* PopularViewController.swift in Sources */,
+				C229BDFE21076DE200A9258D /* InterestingViewController.swift in Sources */,
 				A37DDECD213549B000ABFFDF /* UICollectionView+RegisterCells.swift in Sources */,
 				C2982F6D213441A20049B1CC /* ImageInfoView.swift in Sources */,
 				A37DDED321354CB700ABFFDF /* URLRequest+Request.swift in Sources */,
@@ -578,6 +581,7 @@
 				C229BDCB21061EB100A9258D /* AppDelegate.swift in Sources */,
 				C229BDF021061FE100A9258D /* MenuViewModel.swift in Sources */,
 				C229BE162108C8E500A9258D /* FlickrSearchRequest.swift in Sources */,
+				A37DDEDB213E943000ABFFDF /* FlickrInterestingRequest.swift in Sources */,
 				A37DDED121354C9100ABFFDF /* URLSession+SynchronousTask.swift in Sources */,
 				C27679452125ACFE00C6531A /* PhotoItemsCollection.swift in Sources */,
 				C229BE02210773B000A9258D /* ResultsViewController.swift in Sources */,

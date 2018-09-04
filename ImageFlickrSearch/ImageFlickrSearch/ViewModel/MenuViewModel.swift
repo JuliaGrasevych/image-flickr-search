@@ -12,7 +12,7 @@ import RxDataSources
 
 class MenuViewModel {
     var items: Observable<[SectionModel<Int, MenuItem>]> {
-        return Observable.just([.search, .popular]).map { items in
+        return Observable.just([.search, .interesting]).map { items in
             return [SectionModel(model: 0, items: items)]
         }
     }

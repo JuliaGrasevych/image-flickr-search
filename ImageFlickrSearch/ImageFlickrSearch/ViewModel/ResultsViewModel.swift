@@ -15,8 +15,8 @@ class ResultsViewModel {
     private let httpClient = FlickrHTTPClient()
     var items: Observable<[SectionModel<Int, PhotoItem>]> {
         return resultItems.asObservable()
-            .map({ $0?.items })
-            .filter({ $0 != nil })
+            .map { $0?.items }
+            .filter { $0 != nil }
             .map { items in
             return [SectionModel(model: 0, items: items!)]
         }
