@@ -28,6 +28,19 @@ class PhotoItemsCollection {
         }
         self.items?.append(contentsOf: collectionItems)
     }
+    func appending(contentsOf collection: PhotoItemsCollection?) -> PhotoItemsCollection {
+        guard let newCollection = self.copy() as? PhotoItemsCollection else {
+            fatalError("\(type(of: self)) doesn't return \(type(of: self)) on copy()")
+        }
+        newCollection.append(contentsOf: collection)
+        return newCollection
+    }
+}
+
+extension PhotoItemsCollection: NSCopying {
+    func copy(with zone: NSZone? = nil) -> Any {
+        return PhotoItemsCollection(items: self.items, searchTerm: self.searchTerm)
+    }
 }
 
 extension PhotoItemsCollection: Sequence, IteratorProtocol {

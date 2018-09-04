@@ -11,24 +11,23 @@ import UIKit
 class ImageInfoView: UIView {
     private var imageView: UIImageView!
     private var infoLabel: UILabel!
+    private var loader: UIActivityIndicatorView!
     
     var image: UIImage? {
         didSet {
             imageView.image = image
+            imageView.isHidden = (image == nil)
         }
     }
     var infoMessage: String? {
         didSet {
             infoLabel.text = infoMessage
+            infoLabel.isHidden = (infoMessage == nil)
         }
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        defaultInit()
-    }
-    override func awakeFromNib() {
-        super.awakeFromNib()
         defaultInit()
     }
     required init?(coder aDecoder: NSCoder) {
@@ -38,32 +37,44 @@ class ImageInfoView: UIView {
     
     private func defaultInit() {
         imageView = UIImageView(frame: self.bounds)
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
         addSubview(imageView)
+        imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        imageView.setContentHuggingPriority(.defaultHigh, for: .vertical)
         NSLayoutConstraint.scaleToFillParent(childView: imageView)
         infoLabel = UILabel(frame: self.bounds)
         addSubview(infoLabel)
         NSLayoutConstraint.scaleToFillParent(childView: infoLabel)
+        loader = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        loader.hidesWhenStopped = true
+        loader.stopAnimating()
+        addSubview(loader)
+        NSLayoutConstraint.centerInParent(childView: loader)
     }
 }
 
 extension ImageInfoView {
     enum ImageInfoState {
         case empty
-        case loading(String)
+        case loading
         case error(String)
         case loaded(UIImage?)
     }
     func update(state: ImageInfoState) {
+        image = nil
+        infoMessage = nil
         switch state {
         case .empty:
-            image = nil
-            infoMessage = nil
-        case let .loading(message), let .error(message):
-            image = nil
+            loader.startAnimating()
+        case .loading:
+            loader.startAnimating()
+        case let .error(message):
+            loader.stopAnimating()
             infoMessage = message
         case let .loaded(image):
             self.image = image
-            infoMessage = nil
+            loader.stopAnimating()
         }
     }
 }

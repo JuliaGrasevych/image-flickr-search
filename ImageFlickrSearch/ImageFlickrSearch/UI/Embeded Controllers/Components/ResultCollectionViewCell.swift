@@ -11,12 +11,16 @@ import RxSwift
 import RxCocoa
 
 class ResultCollectionViewCell: UICollectionViewCell {
-    @IBOutlet var label: UILabel!
-    @IBOutlet var imageView: ImageInfoView!
+    @IBOutlet private var label: UILabel!
+    @IBOutlet private var imageView: ImageInfoView!
     
     private var driverDisposable: Disposable?
     private let disposeBag = DisposeBag()
 
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
+    
     override func prepareForReuse() {
         imageView.update(state: .empty)
         label.text = nil
@@ -28,7 +32,7 @@ class ResultCollectionViewCell: UICollectionViewCell {
     }
     
     private func handle(driver: Driver<UIImage?>) {
-        imageView.update(state: .loading("Loading..."))
+        imageView.update(state: .loading)
         driverDisposable?.dispose()
         driverDisposable = driver.asObservable()
             .subscribe(onNext: { imageIcon in

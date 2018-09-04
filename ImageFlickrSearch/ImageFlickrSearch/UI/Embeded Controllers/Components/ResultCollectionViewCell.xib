@@ -19,15 +19,19 @@
                 <rect key="frame" x="0.0" y="0.0" width="179" height="190"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Lo-O8-NI5">
-                        <rect key="frame" x="9" y="169" width="161" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Lo-O8-NI5">
+                        <rect key="frame" x="9" y="172" width="161" height="18"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UA2-WS-q49" customClass="ImageInfoView" customModule="ImageFlickrSearch" customModuleProvider="target">
-                        <rect key="frame" x="9" y="9" width="161" height="160"/>
+                    <view contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="UA2-WS-q49" customClass="ImageInfoView" customModule="ImageFlickrSearch" customModuleProvider="target">
+                        <rect key="frame" x="9" y="9" width="161" height="163"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="161" id="fkr-2T-cRT"/>
+                            <constraint firstAttribute="height" constant="163" id="hDU-oK-gAf"/>
+                        </constraints>
                     </view>
                 </subviews>
             </view>

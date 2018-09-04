@@ -25,21 +25,26 @@ class ResultsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            flowLayout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize
+        }
         collectionView.dataSource = nil
         collectionView.rx
             .prefetchItems
             .bind {[unowned self] indexPaths in
-                if indexPaths.contains(where: { self.delegate?.isLoadingCell($0) ?? false }) {
-                    self.delegate?.fetchResults(for: self)
+                guard let delegate = self.delegate else {
+                    return
                 }
-        }
-        .disposed(by: disposeBag)
+                if indexPaths.contains(where: delegate.isLoadingCell) {
+                    delegate.fetchResults(for: self)
+                }
+            }
+            .disposed(by: disposeBag)
         
         collectionView.registerNib(class: ResultCollectionViewCell.self)
         viewModel.items.asObservable()
             .bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
-        
     }
     
     private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<Int, PhotoItem>> {

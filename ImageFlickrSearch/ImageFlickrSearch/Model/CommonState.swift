@@ -9,5 +9,5 @@
 import Foundation
 
 enum CommonState {
-    case loaded, loading, empty
+    case `default`, loaded, loading, empty
 }

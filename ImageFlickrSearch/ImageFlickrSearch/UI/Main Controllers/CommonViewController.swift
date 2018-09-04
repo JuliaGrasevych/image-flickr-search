@@ -22,6 +22,8 @@ protocol CommonViewController where Self: UIViewController {
 extension CommonViewController {
     func setupResults(state: CommonState) {
         switch state {
+        case .default:
+            setupChild(viewController: noResultsVC)
         case .empty:
             setupChild(viewController: noResultsVC)
         case .loading:

@@ -52,6 +52,9 @@ extension SearchViewController: ResultsViewControllerDelegate {
         viewModel.fetchResults()
     }
     func isLoadingCell(_ indexPath: IndexPath) -> Bool {
+        guard !viewModel.fullyLoaded else {
+            return false
+        }
         return indexPath.row >= viewModel.currentCount - 1
     }
 }

@@ -16,6 +16,9 @@ class SearchViewModel {
     let searchTerm: BehaviorRelay<String?> = BehaviorRelay(value: nil)
     let state: Observable<CommonState>
     
+    var fullyLoaded: Bool {
+        return currentCount == totalCount
+    }
     var currentCount = 0
     
     private let itemsObservable: Observable<PhotoItemsCollection?>
@@ -44,12 +47,15 @@ class SearchViewModel {
                                                     // if no items check if there's a search in progress
                                                     return .loading
                                                 }
-                                                return .empty
+                                                return .default
                                             }
                                             if items.searchTerm != search {
                                                 return .loading
                                             }
-                                            return .loaded
+                                            if let count = items.count, count > 0 {
+                                                return .loaded
+                                            }
+                                            return .empty
         })
             .observeOn(MainScheduler.instance)
         
@@ -90,19 +96,14 @@ class SearchViewModel {
                                                               page: page)
         request = FlickrSearchRequest(parameters: searchParameters)
         request?.start { (result, error) in
-            let resultItems: PhotoItemsCollection? = {
-                return PhotoItemsCollection(items: result?.photoItems, searchTerm: searchText)
-            }()
+            let resultItems = PhotoItemsCollection(items: result?.photoItems, searchTerm: searchText)
             self.totalCount = result?.totalCount ?? 0
             self.pageNumber = result?.page ?? 1
             self.pageCount = result?.pages ?? 0
-            self.currentCount += resultItems?.count ?? 0
+            self.currentCount += resultItems.count ?? 0
             if page > 1 {
-                let newArray = self.items.value
-                if let resultItems = resultItems {
-                    newArray?.append(contentsOf: resultItems)
-                }
-                self.items.accept(newArray)//value?.append(contentsOf: resultItems)
+                let newArray = self.items.value?.appending(contentsOf: resultItems)
+                self.items.accept(newArray)
             } else {
                 self.items.accept(resultItems)
             }

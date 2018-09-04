@@ -21,4 +21,22 @@ extension NSLayoutConstraint {
                                                                views: ["child": childView])
         NSLayoutConstraint.activate(hConstraints + vConstraints)
     }
+    static func centerInParent(childView: UIView) {
+        childView.translatesAutoresizingMaskIntoConstraints = false
+        let xConstraint = NSLayoutConstraint(item: childView,
+                                              attribute: .centerX,
+                                              relatedBy: .equal,
+                                              toItem: childView.superview,
+                                              attribute: .centerX,
+                                              multiplier: 1,
+                                              constant: 0)
+        let yConstraint = NSLayoutConstraint(item: childView,
+                                              attribute: .centerY,
+                                              relatedBy: .equal,
+                                              toItem: childView.superview,
+                                              attribute: .centerY,
+                                              multiplier: 1,
+                                              constant: 0)
+        NSLayoutConstraint.activate([xConstraint, yConstraint])
+    }
 }
