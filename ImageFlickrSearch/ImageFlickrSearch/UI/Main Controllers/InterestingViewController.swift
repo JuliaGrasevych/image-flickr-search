@@ -24,7 +24,7 @@ class InterestingViewController: UIViewController, CommonViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        resultsVC.delegate = self
+        resultsVC.delegate = self
         Observable.just("Loading...")
             .bind(to: loadingVC.viewModel.text)
             .disposed(by: disposeBag)
@@ -39,4 +39,19 @@ class InterestingViewController: UIViewController, CommonViewController {
             .bind(to: resultsVC.viewModel.resultItems)
             .disposed(by: disposeBag)
     }
+}
+
+extension InterestingViewController: ResultsViewControllerDelegate {
+    func fetchResults(for resultsVC: ResultsViewController) {
+        viewModel.moreResults()
+    }
+    
+    func isLoadingCell(_ indexPath: IndexPath) -> Bool {
+        guard !viewModel.fullyLoaded else {
+            return false
+        }
+        return indexPath.row >= viewModel.currentCount - 1
+    }
+    
+    
 }

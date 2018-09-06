@@ -17,6 +17,10 @@ enum FlickrError: Error {
 
 class FlickrManager: NSObject {
 
+    private struct DefaultKeys {
+        static let photosKey = "photos"
+    }
+    
     static let sharedInstance = FlickrManager()
     
     private let flickrKit = FlickrKit.shared()
@@ -34,7 +38,8 @@ class FlickrManager: NSObject {
         searchRequest.per_page = "\(searchParameters.itemsPerPage)"
         searchRequest.page = "\(searchParameters.page)"
         return flickrKit.call(searchRequest) { (result, error) in
-            let normalResult = self.normalizeResponse(result, for: ["total"])
+            let normalResult = self.normalizeResponse(result?[DefaultKeys.photosKey] as? [String: Any],
+                                                      for: [Photos.CodingKeys.totalCount.stringValue])
             completion(normalResult, error)
         }
     }
@@ -43,7 +48,8 @@ class FlickrManager: NSObject {
         popularRequest.per_page = "\(parameters.itemsPerPage)"
         popularRequest.page = "\(parameters.page)"
         return flickrKit.call(popularRequest) { (result, error) in
-            let normalResult = self.normalizeResponse(result, for: ["total"])
+            let normalResult = self.normalizeResponse(result?[DefaultKeys.photosKey] as? [String: Any],
+                                                      for: [Photos.CodingKeys.totalCount.stringValue])
             completion(normalResult, error)
         }
     }

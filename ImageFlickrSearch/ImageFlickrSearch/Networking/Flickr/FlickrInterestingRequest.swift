@@ -29,7 +29,7 @@ class FlickrInterestingRequest: FlickrRequestCommand {
                 completion(nil, .flickrKit(error: error))
                 return
             }
-            guard let result = result?["photos"] as? [String: Any],
+            guard let result = result,
                 let photos: Photos = Photos.fill(withDictionary: result) else {
                     completion(nil, .invalidStructure)
                     return

@@ -10,15 +10,6 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-enum Result<T, Error> {
-    case success(T)
-    case failure(Error)
-}
-struct Response {
-    let statusCode: Int
-    let body: Data?
-}
-
 protocol HTTP {
-    func execute(request: Request) -> Result<Response, Error>
+    func execute(request: Request) -> Observable<Data>
 }

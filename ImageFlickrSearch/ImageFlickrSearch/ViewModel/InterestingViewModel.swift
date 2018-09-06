@@ -42,10 +42,15 @@ class InterestingViewModel {
             return .empty
         }
             .observeOn(MainScheduler.instance)
-        downloadPopular()
+        downloadInteresting()
     }
     
-    private func downloadPopular(page: Int = 1) {
+    func moreResults() {
+        pageNumber += 1
+        downloadInteresting(page: pageNumber)
+    }
+    
+    private func downloadInteresting(page: Int = 1) {
         // don't cancel request when it's loading next pages
         if request?.isExecuting == true && page > 1 {
             return
