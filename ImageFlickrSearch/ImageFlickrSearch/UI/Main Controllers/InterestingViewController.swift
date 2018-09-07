@@ -52,6 +52,4 @@ extension InterestingViewController: ResultsViewControllerDelegate {
         }
         return indexPath.row >= viewModel.currentCount - 1
     }
-    
-    
 }

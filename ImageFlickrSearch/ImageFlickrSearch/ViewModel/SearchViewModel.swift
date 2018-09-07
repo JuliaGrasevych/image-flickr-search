@@ -11,8 +11,11 @@ import RxSwift
 import RxCocoa
 
 class SearchViewModel {
+    private struct DefaultKeys {
+        static let searchQueueKey = "imageflickr.search.network.queue"
+    }
     
-    var items: BehaviorRelay<PhotoItemsCollection?> = BehaviorRelay(value: nil)
+    let items: BehaviorRelay<PhotoItemsCollection?> = BehaviorRelay(value: nil)
     let searchTerm: BehaviorRelay<String?> = BehaviorRelay(value: nil)
     let state: Observable<CommonState>
     
@@ -32,13 +35,19 @@ class SearchViewModel {
     private var itemsPerPage = 10
     
     init() {
+        
         itemsObservable = items.asObservable()
             .distinctUntilChanged()
             .share()
-        
         searchTermObservable = searchTerm.asObservable()
+            .filter {
+                guard let string = $0 else {
+                    return true
+                }
+                return !string.isEmpty
+            }
             .distinctUntilChanged()
-            .debounce(1, scheduler: SerialDispatchQueueScheduler.init(internalSerialQueueName: "my.network.queue"))
+            .debounce(1, scheduler: SerialDispatchQueueScheduler.init(internalSerialQueueName: DefaultKeys.searchQueueKey))
             .share()
         state = Observable.combineLatest(itemsObservable, searchTermObservable,
                                          resultSelector: { (items, search) -> CommonState in
@@ -57,15 +66,17 @@ class SearchViewModel {
                                             }
                                             return .empty
         })
+            .startWith(.default)
+            .share()
             .observeOn(MainScheduler.instance)
         
         // subscribe
         searchTermObservable.subscribe(onNext: { string in
             self.removePreviousResults()
             guard let string = string,
-            !string.isEmpty else {
-                self.items.accept(nil)
-                return
+                !string.isEmpty else {
+                    self.items.accept(nil)
+                    return
             }
             self.search(string)
         })
