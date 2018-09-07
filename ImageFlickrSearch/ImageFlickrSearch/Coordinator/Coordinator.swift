@@ -35,6 +35,7 @@ extension Coordinator: MenuItemControllerDelegate {
     
     func instantiateSearchViewController(with leftBarButtonItem: UIBarButtonItem) -> SearchViewController {
         let viewController = SearchViewController()
+        viewController.delegate = self
         viewController.navigationItem.leftBarButtonItem = leftBarButtonItem
         viewController.navigationItem.leftItemsSupplementBackButton = true
         return viewController
@@ -42,8 +43,22 @@ extension Coordinator: MenuItemControllerDelegate {
     
     func instantiatePopularViewController(with leftBarButtonItem: UIBarButtonItem) -> InterestingViewController {
         let viewController = InterestingViewController()
+        viewController.delegate = self
         viewController.navigationItem.leftBarButtonItem = leftBarButtonItem
         viewController.navigationItem.leftItemsSupplementBackButton = true
+        return viewController
+    }
+}
+
+extension Coordinator: ContentViewControllerDelegate {
+    func didSelect(_ photo: PhotoItem) {
+        let viewController = instantiatePhotoViewController(with: photo)
+        viewController.title = photo.title
+        viewController.modalPresentationStyle = .formSheet
+        splitVC.present(viewController, animated: true, completion: nil)
+    }
+    func instantiatePhotoViewController(with photo: PhotoItem) -> PhotoViewController {
+        let viewController = PhotoViewController(photo: photo)
         return viewController
     }
 }

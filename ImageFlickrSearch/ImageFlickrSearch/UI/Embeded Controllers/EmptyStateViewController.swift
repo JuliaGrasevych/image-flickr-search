@@ -7,7 +7,19 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class EmptyStateViewController: UIViewController {
-
+    @IBOutlet private var textLabel: UILabel!
+    
+    let viewModel = EmptyStateViewModel()
+    let disposeBag = DisposeBag()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        viewModel.description.asObservable()
+            .bind(to: textLabel.rx.text)
+            .disposed(by: disposeBag)
+    }
 }

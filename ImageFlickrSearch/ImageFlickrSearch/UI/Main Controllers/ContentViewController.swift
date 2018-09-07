@@ -1,5 +1,5 @@
 //
-//  CommonViewController.swift
+//  ContentViewController.swift
 //  ImageFlickrSearch
 //
 //  Created by Iuliia.Grasevych on 7/24/18.
@@ -8,19 +8,25 @@
 
 import UIKit
 
-protocol CommonViewController where Self: UIViewController {
+protocol ContentViewControllerDelegate: class {
+    func didSelect(_ photo: PhotoItem)
+}
+
+protocol ContentViewController where Self: UIViewController {
     associatedtype ViewModelType
     
     var resultContainerView: UIView! { get set }
     var resultsVC: ResultsViewController { get set }
     var noResultsVC: EmptyStateViewController { get set }
     var loadingVC: LoadingViewController { get set }
-    var viewModel: ViewModelType { get set }
+    var viewModel: ViewModelType { get }
+    var delegate: ContentViewControllerDelegate? { get set }
     
-    func setupResults(state: CommonState)
+    func setupResults(state: ContentState)
 }
-extension CommonViewController {
-    func setupResults(state: CommonState) {
+
+extension ContentViewController {
+    func setupResults(state: ContentState) {
         switch state {
         case .default:
             setupChild(viewController: noResultsVC)

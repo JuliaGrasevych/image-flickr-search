@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class InterestingViewController: UIViewController, CommonViewController {
+class InterestingViewController: UIViewController, ContentViewController {
     typealias ViewModelType = InterestingViewModel
     
     @IBOutlet var resultContainerView: UIView!
@@ -18,25 +18,26 @@ class InterestingViewController: UIViewController, CommonViewController {
     var resultsVC = ResultsViewController()
     var noResultsVC = EmptyStateViewController()
     var loadingVC = LoadingViewController()
-    var viewModel = InterestingViewModel()
+    weak var delegate: ContentViewControllerDelegate?
     
+    let viewModel = InterestingViewModel()
     let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         resultsVC.delegate = self
-        Observable.just("Loading...")
-            .bind(to: loadingVC.viewModel.text)
+        resultsVC.pickerDelegate = self
+        
+        Driver.just("Loading...")
+            .drive(loadingVC.viewModel.text)
             .disposed(by: disposeBag)
         
         viewModel.state
-            .subscribe(onNext: { state in
-                self.setupResults(state: state)
-            })
+            .drive(onNext: { self.setupResults(state: $0) })
             .disposed(by: disposeBag)
         
-        viewModel.items.asObservable()
-            .bind(to: resultsVC.viewModel.resultItems)
+        viewModel.items.asDriver()
+            .drive(resultsVC.viewModel.resultItems)
             .disposed(by: disposeBag)
     }
 }
@@ -51,5 +52,10 @@ extension InterestingViewController: ResultsViewControllerDelegate {
             return false
         }
         return indexPath.row >= viewModel.currentCount - 1
+    }
+}
+extension InterestingViewController: ResultsViewPickerDelegate {
+    func didSelect(_ photo: PhotoItem) {
+        delegate?.didSelect(photo)
     }
 }

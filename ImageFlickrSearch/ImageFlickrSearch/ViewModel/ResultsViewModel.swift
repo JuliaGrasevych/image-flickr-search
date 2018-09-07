@@ -25,7 +25,7 @@ class ResultsViewModel {
     let resultItems: BehaviorRelay<PhotoItemsCollection?> = BehaviorRelay(value: nil)
     
     func driver(for item: PhotoItem) -> Driver<UIImage?> {
-        guard let url = item.url else {
+        guard let url = item.thumbUrl else {
             return Driver.just(nil)
         }
         return httpClient.rx_image(url: url)

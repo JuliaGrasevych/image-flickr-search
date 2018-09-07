@@ -8,6 +8,6 @@
 
 import Foundation
 
-enum CommonState {
+enum ContentState {
     case `default`, loaded, loading, empty
 }

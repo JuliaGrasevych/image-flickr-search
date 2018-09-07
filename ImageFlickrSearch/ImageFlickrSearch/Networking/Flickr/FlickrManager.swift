@@ -53,11 +53,17 @@ class FlickrManager: NSObject {
             completion(normalResult, error)
         }
     }
-    func url(from photoItem: PhotoItem) -> URL? {
+    func thumbUrl(from photoItem: PhotoItem) -> URL? {
         guard let photoDictionary = photoItem.jsonDictionary else {
             return nil
         }
         return flickrKit.photoURL(for: .medium800, fromPhotoDictionary: photoDictionary)
+    }
+    func url(from photoItem: PhotoItem) -> URL? {
+        guard let photoDictionary = photoItem.jsonDictionary else {
+            return nil
+        }
+        return flickrKit.photoURL(for: .large1600, fromPhotoDictionary: photoDictionary)
     }
     
     private func normalizeResponse(_ response: [String: Any]?, for keys: [String]) -> [String: Any]? {

@@ -42,6 +42,7 @@ class ImageInfoView: UIView {
         addSubview(imageView)
         imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         imageView.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        imageView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         NSLayoutConstraint.scaleToFillParent(childView: imageView)
         infoLabel = UILabel(frame: self.bounds)
         addSubview(infoLabel)
@@ -51,6 +52,16 @@ class ImageInfoView: UIView {
         loader.stopAnimating()
         addSubview(loader)
         NSLayoutConstraint.centerInParent(childView: loader)
+    }
+    
+    override var intrinsicContentSize: CGSize {
+        guard let image = imageView.image else {
+            return super.intrinsicContentSize
+        }
+        let imageViewWidth = imageView.frame.width
+        let aspectRatio = image.size.width / image.size.height
+        let imageViewHeight = imageViewWidth / aspectRatio
+        return CGSize(width: imageViewWidth, height: imageViewHeight)
     }
 }
 
@@ -76,5 +87,6 @@ extension ImageInfoView {
             self.image = image
             loader.stopAnimating()
         }
+        invalidateIntrinsicContentSize()
     }
 }

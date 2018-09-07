@@ -14,11 +14,15 @@ protocol ResultsViewControllerDelegate: class {
     func fetchResults(for resultsVC: ResultsViewController)
     func isLoadingCell(_ indexPath: IndexPath) -> Bool
 }
+protocol ResultsViewPickerDelegate: class {
+    func didSelect(_ photo: PhotoItem)
+}
 
 class ResultsViewController: UIViewController {
     @IBOutlet private var collectionView: UICollectionView!
     
     weak var delegate: ResultsViewControllerDelegate?
+    weak var pickerDelegate: ResultsViewPickerDelegate?
     
     let viewModel = ResultsViewModel()
     private let disposeBag = DisposeBag()
@@ -36,6 +40,11 @@ class ResultsViewController: UIViewController {
                     delegate.fetchResults(for: self)
                 }
             }
+            .disposed(by: disposeBag)
+        
+        collectionView.rx
+            .modelSelected(PhotoItem.self)
+            .bind { self.pickerDelegate?.didSelect($0) }
             .disposed(by: disposeBag)
         
         collectionView.registerNib(class: ResultCollectionViewCell.self)

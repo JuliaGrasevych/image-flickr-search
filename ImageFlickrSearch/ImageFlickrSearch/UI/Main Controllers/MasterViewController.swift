@@ -30,10 +30,15 @@ class MasterViewController: UITableViewController {
             .disposed(by: disposeBag)
         tableView.rx
             .modelSelected(MenuItem.self)
-            .subscribe(onNext: { self.delegate?.didSelect($0) })
+            .bind { self.delegate?.didSelect($0) }
             .disposed(by: disposeBag)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        clearsSelectionOnViewWillAppear = splitViewController!.isCollapsed
+        super.viewWillAppear(animated)
+    }
+    
     var dataSource: RxTableViewSectionedReloadDataSource<SectionModel<Int, MenuItem>> {
         return RxTableViewSectionedReloadDataSource<SectionModel<Int, MenuItem>>(
             configureCell: { (_, table, idxPath, item) in
@@ -41,9 +46,5 @@ class MasterViewController: UITableViewController {
                 cell.textLabel?.text = item.description
                 return cell
         })
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        clearsSelectionOnViewWillAppear = splitViewController!.isCollapsed
-        super.viewWillAppear(animated)
     }
 }

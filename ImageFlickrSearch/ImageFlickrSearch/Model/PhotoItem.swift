@@ -46,5 +46,6 @@ class PhotoItem: NSObject, Codable {
     var isfriend: Int?
     var isfamily: Int?
     
+    var thumbUrl: URL?
     var url: URL?
 }

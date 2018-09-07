@@ -34,7 +34,10 @@ class FlickrInterestingRequest: FlickrRequestCommand {
                     completion(nil, .invalidStructure)
                     return
             }
-            photos.photoItems?.forEach { $0.url = FlickrManager.sharedInstance.url(from: $0) }
+            photos.photoItems?.forEach {
+                $0.thumbUrl = FlickrManager.sharedInstance.thumbUrl(from: $0)
+                $0.url = FlickrManager.sharedInstance.url(from: $0)
+            }
             completion(photos, nil)
         }
     }

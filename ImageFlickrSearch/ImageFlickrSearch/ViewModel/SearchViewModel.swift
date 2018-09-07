@@ -17,7 +17,7 @@ class SearchViewModel {
     
     let items: BehaviorRelay<PhotoItemsCollection?> = BehaviorRelay(value: nil)
     let searchTerm: BehaviorRelay<String?> = BehaviorRelay(value: nil)
-    let state: Observable<CommonState>
+    let state: Driver<ContentState>
     
     var fullyLoaded: Bool {
         return currentCount == totalCount
@@ -40,17 +40,11 @@ class SearchViewModel {
             .distinctUntilChanged()
             .share()
         searchTermObservable = searchTerm.asObservable()
-            .filter {
-                guard let string = $0 else {
-                    return true
-                }
-                return !string.isEmpty
-            }
             .distinctUntilChanged()
             .debounce(1, scheduler: SerialDispatchQueueScheduler.init(internalSerialQueueName: DefaultKeys.searchQueueKey))
             .share()
         state = Observable.combineLatest(itemsObservable, searchTermObservable,
-                                         resultSelector: { (items, search) -> CommonState in
+                                         resultSelector: { (items, search) -> ContentState in
                                             guard let items = items else {
                                                 if let search = search, !search.isEmpty {
                                                     // if no items check if there's a search in progress
@@ -68,7 +62,7 @@ class SearchViewModel {
         })
             .startWith(.default)
             .share()
-            .observeOn(MainScheduler.instance)
+            .asDriver(onErrorJustReturn: .default)
         
         // subscribe
         searchTermObservable.subscribe(onNext: { string in

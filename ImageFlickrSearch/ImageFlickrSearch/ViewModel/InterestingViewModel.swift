@@ -12,7 +12,7 @@ import RxSwift
 
 class InterestingViewModel {
     let items: BehaviorRelay<PhotoItemsCollection?> = BehaviorRelay(value: nil)
-    let state: Observable<CommonState>
+    let state: Driver<ContentState>
     
     var fullyLoaded: Bool {
         return currentCount == totalCount
@@ -32,7 +32,7 @@ class InterestingViewModel {
         itemsObservable = items.asObservable()
             .distinctUntilChanged()
             .share()
-        state = itemsObservable.map { photos -> CommonState in
+        state = itemsObservable.map { photos -> ContentState in
             guard let photos = photos else {
                 return .loading
             }
@@ -41,7 +41,8 @@ class InterestingViewModel {
             }
             return .empty
         }
-            .observeOn(MainScheduler.instance)
+            .asDriver(onErrorJustReturn: .default)
+
         downloadInteresting()
     }
     

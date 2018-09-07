@@ -34,13 +34,8 @@ class ResultCollectionViewCell: UICollectionViewCell {
     private func handle(driver: Driver<UIImage?>) {
         imageView.update(state: .loading)
         driverDisposable?.dispose()
-        driverDisposable = driver.asObservable()
-            .subscribe(onNext: { imageIcon in
-                self.imageView.update(state: .loaded(imageIcon))
-            }, onError: { error in
-                // handle error
-                self.imageView.update(state: .error("Oops!"))
-            })
+        driverDisposable = driver
+            .drive(onNext: { self.imageView.update(state: .loaded($0)) })
         driverDisposable?.disposed(by: disposeBag)
     }
 }
