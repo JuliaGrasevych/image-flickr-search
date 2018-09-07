@@ -26,7 +26,7 @@ class PhotoViewController: UIViewController {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError("init(coder:) has not been implemented. View controller should not be initiated from xib")
     }
     
     // MARK: - View lifecycle
@@ -37,6 +37,10 @@ class PhotoViewController: UIViewController {
         photoView.update(state: .loading)
         viewModel.imageDriver()
             .drive(onNext: { self.photoView.update(state: .loaded($0)) })
+            .disposed(by: disposeBag)
+        viewModel.title
+            .asDriver()
+            .drive(descriptionLabel.rx.text)
             .disposed(by: disposeBag)
         
         doneButton.rx

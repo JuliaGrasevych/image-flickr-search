@@ -34,6 +34,8 @@ class PhotoItem: NSObject, Codable {
         case ispublic
         case isfriend
         case isfamily
+        case createDate = "datetaken"
+        case ownerName = "ownername"
     }
     
     var id: String?
@@ -45,7 +47,18 @@ class PhotoItem: NSObject, Codable {
     var ispublic: Int?
     var isfriend: Int?
     var isfamily: Int?
+    var createDate: Date?
+    var ownerName: String?
     
     var thumbUrl: URL?
     var url: URL?
+}
+
+// MARK: - DateDecodingStrategyProvider
+extension Photos: DateDecodingStrategyProvider {
+    static func dateDecodingStrategy() -> JSONDecoder.DateDecodingStrategy {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return .formatted(formatter)
+    }
 }

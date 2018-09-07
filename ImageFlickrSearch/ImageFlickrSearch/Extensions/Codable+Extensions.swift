@@ -8,11 +8,17 @@
 
 import Foundation
 
+protocol DateDecodingStrategyProvider {
+    static func dateDecodingStrategy() -> JSONDecoder.DateDecodingStrategy
+}
+
 extension Decodable {
     // MARK: - Class methods
     static func decode<T: Decodable>(data: Data) throws -> T {
         let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .secondsSince1970
+        if let provider = T.self as? DateDecodingStrategyProvider.Type {
+            decoder.dateDecodingStrategy = provider.dateDecodingStrategy()
+        }
         return try decoder.decode(T.self, from: data)
     }
     static func fill<T: Decodable>(withDictionary dictionary: [String: Any]) -> T? {

@@ -17,6 +17,15 @@ enum FlickrError: Error {
 
 class FlickrManager: NSObject {
 
+    private enum Extras: String, CustomStringConvertible {
+        case dateTaken = "date_taken"
+        case ownerName = "owner_name"
+        
+        var description: String {
+            return self.rawValue
+        }
+    }
+    
     private struct DefaultKeys {
         static let photosKey = "photos"
     }
@@ -38,6 +47,7 @@ class FlickrManager: NSObject {
         searchRequest.text = searchParameters.searchText
         searchRequest.per_page = "\(searchParameters.itemsPerPage)"
         searchRequest.page = "\(searchParameters.page)"
+        searchRequest.extras = "\(Extras.dateTaken),\(Extras.ownerName)"
         return flickrKit.call(searchRequest) { (result, error) in
             let normalResult = self.normalizeResponse(result?[DefaultKeys.photosKey] as? [String: Any],
                                                       for: [Photos.CodingKeys.totalCount.stringValue])
@@ -48,6 +58,7 @@ class FlickrManager: NSObject {
         let popularRequest = FKFlickrInterestingnessGetList()
         popularRequest.per_page = "\(parameters.itemsPerPage)"
         popularRequest.page = "\(parameters.page)"
+        popularRequest.extras = "\(Extras.dateTaken),\(Extras.ownerName)"
         return flickrKit.call(popularRequest) { (result, error) in
             let normalResult = self.normalizeResponse(result?[DefaultKeys.photosKey] as? [String: Any],
                                                       for: [Photos.CodingKeys.totalCount.stringValue])
