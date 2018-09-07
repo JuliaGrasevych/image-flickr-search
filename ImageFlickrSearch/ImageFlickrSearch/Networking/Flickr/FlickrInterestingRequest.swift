@@ -19,10 +19,12 @@ class FlickrInterestingRequest: FlickrRequestCommand {
     let parameters: Parameters
     var operation: Operation?
     
+    // MARK: - Initializers
     init(parameters: Parameters) {
         self.parameters = parameters
     }
     
+    // MARK: - Public methods
     func start(completion: @escaping Handler) {
         operation = FlickrManager.sharedInstance.getInteresting(parameters) { (result, error) in
             if let error = error {

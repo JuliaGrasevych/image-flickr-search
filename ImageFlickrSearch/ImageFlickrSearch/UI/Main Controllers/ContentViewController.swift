@@ -49,17 +49,8 @@ extension ContentViewController {
             debugPrint("\(type(of: viewController)) is already a child for this view controller. Just bring its view to front.")
             return
         }
-        vcView.translatesAutoresizingMaskIntoConstraints = false
         resultContainerView.addSubview(vcView)
-        let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[resultView]|",
-                                                          options: .alignAllLeading,
-                                                          metrics: nil,
-                                                          views: ["resultView": vcView])
-        let constraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[resultView]|",
-                                                          options: .alignAllLeading,
-                                                          metrics: nil,
-                                                          views: ["resultView": vcView])
-        NSLayoutConstraint.activate(constraintsH + constraintsV)
+        NSLayoutConstraint.scaleToFillParent(childView: vcView)
         addChildViewController(viewController)
         viewController.didMove(toParentViewController: self)
     }

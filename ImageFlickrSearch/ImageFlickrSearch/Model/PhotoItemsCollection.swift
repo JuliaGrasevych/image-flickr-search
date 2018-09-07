@@ -17,6 +17,7 @@ class PhotoItemsCollection {
     private(set) var items: [PhotoItem]?
     private var currentPosition = 0
     
+    // MARK: - Initializers
     init(items: [PhotoItem]?, searchTerm: String) {
         self.items = items
         self.searchTerm = searchTerm

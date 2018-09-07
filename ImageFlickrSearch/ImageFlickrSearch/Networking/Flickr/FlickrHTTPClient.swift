@@ -17,7 +17,7 @@ class FlickrHTTPClient: HTTP {
     private var imageCache: GenericCache<UIImage> {
         return type(of: self).imageCache
     }
-    
+    // MARK: - Public methods
     func execute(request: Request) -> Observable<Data> {
         return session.rx
             .data(request: URLRequest(request: request))

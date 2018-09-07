@@ -27,11 +27,12 @@ class FlickrManager: NSObject {
     private let apiKey = "993278895770d9e09151d919c98cde33"
     private let sharedSecret = "3db9a747df6bfd8a"
     
+    // MARK: - Private init
     private override init() {
         super.init()
         flickrKit.initialize(withAPIKey: apiKey, sharedSecret: sharedSecret)
     }
-    
+    // MARK: - API methods
     func search(_ searchParameters: FlickrSearchRequest.Parameters, completion: @escaping ([String: Any]?, Error?) -> Void) -> Operation {
         let searchRequest = FKFlickrPhotosSearch()
         searchRequest.text = searchParameters.searchText
@@ -53,6 +54,8 @@ class FlickrManager: NSObject {
             completion(normalResult, error)
         }
     }
+    
+    // MARK: - Utility methods
     func thumbUrl(from photoItem: PhotoItem) -> URL? {
         guard let photoDictionary = photoItem.jsonDictionary else {
             return nil
@@ -66,6 +69,7 @@ class FlickrManager: NSObject {
         return flickrKit.photoURL(for: .large1600, fromPhotoDictionary: photoDictionary)
     }
     
+    // MARK: - Private methods
     private func normalizeResponse(_ response: [String: Any]?, for keys: [String]) -> [String: Any]? {
         // for some requests "total" is String, for others - Int
         // normalize it to be Int

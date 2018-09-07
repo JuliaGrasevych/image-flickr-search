@@ -14,10 +14,12 @@ class PhotoViewModel {
     let photo: BehaviorRelay<PhotoItem>
     private let httpClient = FlickrHTTPClient()
     
+    //MARK: - Initializers
     init(photo: PhotoItem) {
         self.photo = BehaviorRelay(value: photo)
     }
     
+    // MARK: - Public methods
     func imageDriver() -> Driver<UIImage?> {
         guard let url = photo.value.url else {
             return Driver.just(nil)

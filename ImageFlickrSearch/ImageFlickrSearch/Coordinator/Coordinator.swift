@@ -11,6 +11,7 @@ import UIKit
 
 class Coordinator {
     private let splitVC: UISplitViewController
+    // MARK: - Initializers
     init(split: UISplitViewController) {
         splitVC = split
         let navVC = split.viewControllers.first as? UINavigationController
@@ -18,7 +19,7 @@ class Coordinator {
         menuVC?.delegate = self
     }
 }
-
+// MARK: - MenuItemControllerDelegate
 extension Coordinator: MenuItemControllerDelegate {
     func didSelect(_ item: MenuItem) {
         let viewController: UIViewController = {
@@ -49,7 +50,7 @@ extension Coordinator: MenuItemControllerDelegate {
         return viewController
     }
 }
-
+// MARK: - ContentViewControllerDelegate
 extension Coordinator: ContentViewControllerDelegate {
     func didSelect(_ photo: PhotoItem) {
         let viewController = instantiatePhotoViewController(with: photo)

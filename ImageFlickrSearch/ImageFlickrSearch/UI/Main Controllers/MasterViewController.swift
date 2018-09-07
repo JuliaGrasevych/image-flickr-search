@@ -16,11 +16,21 @@ protocol MenuItemControllerDelegate: class {
 }
 
 class MasterViewController: UITableViewController {
-
-    weak var delegate: MenuItemControllerDelegate?
+    
     let disposeBag = DisposeBag()
     let viewModel = MenuViewModel()
-
+    weak var delegate: MenuItemControllerDelegate?
+    
+    private var dataSource: RxTableViewSectionedReloadDataSource<SectionModel<Int, MenuItem>> {
+        return RxTableViewSectionedReloadDataSource<SectionModel<Int, MenuItem>>(
+            configureCell: { (_, table, idxPath, item) in
+                let cell = table.dequeueReusableCell(withIdentifier: "Cell", for: idxPath)
+                cell.textLabel?.text = item.description
+                return cell
+        })
+    }
+    
+    // MARK: - View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -33,18 +43,9 @@ class MasterViewController: UITableViewController {
             .bind { self.delegate?.didSelect($0) }
             .disposed(by: disposeBag)
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         clearsSelectionOnViewWillAppear = splitViewController!.isCollapsed
         super.viewWillAppear(animated)
-    }
-    
-    var dataSource: RxTableViewSectionedReloadDataSource<SectionModel<Int, MenuItem>> {
-        return RxTableViewSectionedReloadDataSource<SectionModel<Int, MenuItem>>(
-            configureCell: { (_, table, idxPath, item) in
-                let cell = table.dequeueReusableCell(withIdentifier: "Cell", for: idxPath)
-                cell.textLabel?.text = item.description
-                return cell
-        })
     }
 }

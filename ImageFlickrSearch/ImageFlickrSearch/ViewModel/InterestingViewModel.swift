@@ -20,14 +20,15 @@ class InterestingViewModel {
     var currentCount = 0
     
     private let itemsObservable: Observable<PhotoItemsCollection?>
+    private let disposeBag = DisposeBag()
+    
     private var request: FlickrInterestingRequest?
     private var pageNumber = 1
     private var pageCount = 0
     private var totalCount = 0
     private var itemsPerPage = 10
     
-    private let disposeBag = DisposeBag()
-    
+    // MARK: - Initializers
     init() {
         itemsObservable = items.asObservable()
             .distinctUntilChanged()
@@ -40,24 +41,26 @@ class InterestingViewModel {
                 return .loaded
             }
             return .empty
-        }
+            }
             .asDriver(onErrorJustReturn: .default)
-
+        
         downloadInteresting()
     }
     
+    // MARK: - Public methods
     func moreResults() {
         pageNumber += 1
         downloadInteresting(page: pageNumber)
     }
     
+    // MARK: - Private methods
     private func downloadInteresting(page: Int = 1) {
         // don't cancel request when it's loading next pages
         if request?.isExecuting == true && page > 1 {
             return
         }
         let parameters = FlickrInterestingRequest.Parameters(itemsPerPage: itemsPerPage,
-                                                         page: page)
+                                                             page: page)
         request = FlickrInterestingRequest(parameters: parameters)
         request?.start { (result, error) in
             let resultItems = PhotoItemsCollection(items: result?.photoItems, searchTerm: "popular")

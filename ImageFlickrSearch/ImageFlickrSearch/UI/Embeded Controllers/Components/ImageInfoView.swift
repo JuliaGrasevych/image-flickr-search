@@ -9,10 +9,6 @@
 import UIKit
 
 class ImageInfoView: UIView {
-    private var imageView: UIImageView!
-    private var infoLabel: UILabel!
-    private var loader: UIActivityIndicatorView!
-    
     var image: UIImage? {
         didSet {
             imageView.image = image
@@ -25,7 +21,20 @@ class ImageInfoView: UIView {
             infoLabel.isHidden = (infoMessage == nil)
         }
     }
+    override var intrinsicContentSize: CGSize {
+        guard let image = imageView.image else {
+            return super.intrinsicContentSize
+        }
+        let imageViewWidth = imageView.frame.width
+        let imageViewHeight = imageViewWidth / image.aspectRatio
+        return CGSize(width: imageViewWidth, height: imageViewHeight)
+    }
     
+    private var imageView: UIImageView!
+    private var infoLabel: UILabel!
+    private var loader: UIActivityIndicatorView!
+    
+    // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
         defaultInit()
@@ -34,8 +43,13 @@ class ImageInfoView: UIView {
         super.init(coder: aDecoder)
         defaultInit()
     }
-    
+    // MARK: - Private setup methods
     private func defaultInit() {
+        setupImageView()
+        setupInfoLabel()
+        setupLoader()
+    }
+    private func setupImageView() {
         imageView = UIImageView(frame: self.bounds)
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
@@ -44,24 +58,18 @@ class ImageInfoView: UIView {
         imageView.setContentHuggingPriority(.defaultHigh, for: .vertical)
         imageView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         NSLayoutConstraint.scaleToFillParent(childView: imageView)
+    }
+    private func setupInfoLabel() {
         infoLabel = UILabel(frame: self.bounds)
         addSubview(infoLabel)
         NSLayoutConstraint.scaleToFillParent(childView: infoLabel)
+    }
+    private func setupLoader() {
         loader = UIActivityIndicatorView(activityIndicatorStyle: .gray)
         loader.hidesWhenStopped = true
         loader.stopAnimating()
         addSubview(loader)
         NSLayoutConstraint.centerInParent(childView: loader)
-    }
-    
-    override var intrinsicContentSize: CGSize {
-        guard let image = imageView.image else {
-            return super.intrinsicContentSize
-        }
-        let imageViewWidth = imageView.frame.width
-        let aspectRatio = image.size.width / image.size.height
-        let imageViewHeight = imageViewWidth / aspectRatio
-        return CGSize(width: imageViewWidth, height: imageViewHeight)
     }
 }
 

@@ -12,7 +12,8 @@ import RxCocoa
 import RxDataSources
 
 class ResultsViewModel {
-    private let httpClient = FlickrHTTPClient()
+    let resultItems: BehaviorRelay<PhotoItemsCollection?> = BehaviorRelay(value: nil)
+    
     var items: Observable<[SectionModel<Int, PhotoItem>]> {
         return resultItems.asObservable()
             .map { $0?.items }
@@ -22,7 +23,7 @@ class ResultsViewModel {
         }
     }
     
-    let resultItems: BehaviorRelay<PhotoItemsCollection?> = BehaviorRelay(value: nil)
+    private let httpClient = FlickrHTTPClient()
     
     func driver(for item: PhotoItem) -> Driver<UIImage?> {
         guard let url = item.thumbUrl else {

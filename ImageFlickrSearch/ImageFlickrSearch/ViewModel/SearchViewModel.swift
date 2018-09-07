@@ -34,8 +34,8 @@ class SearchViewModel {
     private var totalCount = 0
     private var itemsPerPage = 10
     
+    // MARK: - Initializers
     init() {
-        
         itemsObservable = items.asObservable()
             .distinctUntilChanged()
             .share()
@@ -77,6 +77,7 @@ class SearchViewModel {
             .disposed(by: disposeBag)
     }
     
+    // MARK: - Public methods
     func fetchResults() {
         guard let searchTerm = searchTerm.value else {
             return
@@ -84,6 +85,8 @@ class SearchViewModel {
         pageNumber += 1
         search(searchTerm, page: pageNumber)
     }
+    
+    // MARK: - Private methods
     private func removePreviousResults() {
         pageNumber = 1
         pageCount = 0

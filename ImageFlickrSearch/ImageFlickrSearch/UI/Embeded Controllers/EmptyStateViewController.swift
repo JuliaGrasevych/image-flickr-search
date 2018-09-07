@@ -11,11 +11,12 @@ import RxSwift
 import RxCocoa
 
 class EmptyStateViewController: UIViewController {
-    @IBOutlet private var textLabel: UILabel!
-    
     let viewModel = EmptyStateViewModel()
     let disposeBag = DisposeBag()
     
+    @IBOutlet private var textLabel: UILabel!
+    
+    // MARK: - View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.description.asObservable()

@@ -10,11 +10,12 @@ import UIKit
 import RxSwift
 
 class LoadingViewController: UIViewController {
-    @IBOutlet private var textLabel: UILabel!
-    
     let viewModel = LoadingViewModel()
     let disposeBag = DisposeBag()
     
+    @IBOutlet private var textLabel: UILabel!
+    
+    // MARK: - View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.text.asObservable()

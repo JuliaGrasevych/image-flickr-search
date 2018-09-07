@@ -11,14 +11,15 @@ import RxSwift
 import RxCocoa
 
 class PhotoViewController: UIViewController {
+    let viewModel: PhotoViewModel
+    let disposeBag = DisposeBag()
+    
     @IBOutlet private var photoView: ImageInfoView!
     @IBOutlet private var descriptionLabel: UILabel!
     @IBOutlet private var navigationBar: UINavigationBar!
     @IBOutlet private var doneButton: UIBarButtonItem!
     
-    let viewModel: PhotoViewModel
-    let disposeBag = DisposeBag()
-    
+    // MARK: - Initializers
     init(photo: PhotoItem) {
         viewModel = PhotoViewModel(photo: photo)
         super.init(nibName: nil, bundle: nil)
@@ -28,6 +29,7 @@ class PhotoViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - View lifecycle
     override func viewDidLoad() {
         navigationItem.leftBarButtonItem = doneButton
         navigationBar.items?.append(navigationItem)

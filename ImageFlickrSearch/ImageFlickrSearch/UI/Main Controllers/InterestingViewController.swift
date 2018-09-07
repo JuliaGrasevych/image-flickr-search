@@ -13,16 +13,17 @@ import RxCocoa
 class InterestingViewController: UIViewController, ContentViewController {
     typealias ViewModelType = InterestingViewModel
     
-    @IBOutlet var resultContainerView: UIView!
+    let viewModel = InterestingViewModel()
+    let disposeBag = DisposeBag()
     
     var resultsVC = ResultsViewController()
     var noResultsVC = EmptyStateViewController()
     var loadingVC = LoadingViewController()
     weak var delegate: ContentViewControllerDelegate?
     
-    let viewModel = InterestingViewModel()
-    let disposeBag = DisposeBag()
+    @IBOutlet var resultContainerView: UIView!
     
+    // MARK: - View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         resultsVC.delegate = self
@@ -42,18 +43,20 @@ class InterestingViewController: UIViewController, ContentViewController {
     }
 }
 
+// MARK: - ResultsViewControllerDelegate
 extension InterestingViewController: ResultsViewControllerDelegate {
     func fetchResults(for resultsVC: ResultsViewController) {
         viewModel.moreResults()
     }
     
     func isLoadingCell(_ indexPath: IndexPath) -> Bool {
-        guard !viewModel.fullyLoaded else {
-            return false
-        }
-        return indexPath.row >= viewModel.currentCount - 1
+        return viewModel.fullyLoaded
+            ? false
+            : indexPath.row >= viewModel.currentCount - 1
     }
 }
+
+// MARK: - ResultsViewPickerDelegate
 extension InterestingViewController: ResultsViewPickerDelegate {
     func didSelect(_ photo: PhotoItem) {
         delegate?.didSelect(photo)

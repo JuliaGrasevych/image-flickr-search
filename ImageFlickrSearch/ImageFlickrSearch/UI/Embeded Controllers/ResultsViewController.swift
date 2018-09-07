@@ -19,14 +19,22 @@ protocol ResultsViewPickerDelegate: class {
 }
 
 class ResultsViewController: UIViewController {
-    @IBOutlet private var collectionView: UICollectionView!
-    
+    let viewModel = ResultsViewModel()
     weak var delegate: ResultsViewControllerDelegate?
     weak var pickerDelegate: ResultsViewPickerDelegate?
     
-    let viewModel = ResultsViewModel()
     private let disposeBag = DisposeBag()
+    @IBOutlet private var collectionView: UICollectionView!
+    private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<Int, PhotoItem>> {
+        return RxCollectionViewSectionedReloadDataSource<SectionModel<Int, PhotoItem>>(
+            configureCell: { (_, table, idxPath, item) in
+                let cell = table.dequeue(ResultCollectionViewCell.self, for: idxPath)
+                cell.render(item, imageDriver: self.viewModel.driver(for: item))
+                return cell
+        })
+    }
     
+    // MARK: - View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.dataSource = nil
@@ -51,14 +59,5 @@ class ResultsViewController: UIViewController {
         viewModel.items.asObservable()
             .bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
-    }
-    
-    private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<Int, PhotoItem>> {
-        return RxCollectionViewSectionedReloadDataSource<SectionModel<Int, PhotoItem>>(
-            configureCell: { (_, table, idxPath, item) in
-                let cell = table.dequeue(ResultCollectionViewCell.self, for: idxPath)
-                cell.render(item, imageDriver: self.viewModel.driver(for: item))
-                return cell
-        })
     }
 }

@@ -11,18 +11,19 @@ import RxSwift
 
 class SearchViewController: UIViewController, ContentViewController {
     typealias ViewModelType = SearchViewModel
-
-    @IBOutlet var resultContainerView: UIView!
-    @IBOutlet private var searchField: UISearchBar!
+    
+    let viewModel = SearchViewModel()
+    let disposeBag = DisposeBag()
     
     var resultsVC = ResultsViewController()
     var noResultsVC = EmptyStateViewController()
     var loadingVC = LoadingViewController()
     weak var delegate: ContentViewControllerDelegate?
     
-    let viewModel = SearchViewModel()
-    let disposeBag = DisposeBag()
+    @IBOutlet var resultContainerView: UIView!
+    @IBOutlet private var searchField: UISearchBar!
     
+    // MARK: - View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -37,11 +38,10 @@ class SearchViewController: UIViewController, ContentViewController {
         // Should this be declared in viewModel ?
         viewModel.state
             .filter { $0 == .empty || $0 == .default }
-            .map { state -> String in
-                if state == .default {
-                    return "Type at least 3 symbols to start search"
-                }
-                return "No results"
+            .map {
+                ($0 == .default)
+                    ? "Type at least 3 symbols to start search"
+                    : "No results"
             }
             .drive(noResultsVC.viewModel.description)
             .disposed(by: disposeBag)
@@ -67,17 +67,19 @@ class SearchViewController: UIViewController, ContentViewController {
     }
 }
 
+// MARK: - ResultsViewControllerDelegate
 extension SearchViewController: ResultsViewControllerDelegate {
     func fetchResults(for resultsVC: ResultsViewController) {
         viewModel.fetchResults()
     }
     func isLoadingCell(_ indexPath: IndexPath) -> Bool {
-        guard !viewModel.fullyLoaded else {
-            return false
-        }
-        return indexPath.row >= viewModel.currentCount - 1
+        return viewModel.fullyLoaded
+            ? false
+            : indexPath.row >= viewModel.currentCount - 1
     }
 }
+
+// MARK: - ResultsViewPickerDelegate
 extension SearchViewController: ResultsViewPickerDelegate {
     func didSelect(_ photo: PhotoItem) {
         delegate?.didSelect(photo)

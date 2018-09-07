@@ -8,7 +8,6 @@
 
 import Foundation
 import RxSwift
-import RxCocoa
 
 protocol HTTP {
     func execute(request: Request) -> Observable<Data>
