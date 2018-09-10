@@ -83,7 +83,7 @@ class FlickrManager: NSObject {
     // MARK: - Private methods
     private func normalizeResponse(_ response: [String: Any]?, for keys: [String]) -> [String: Any]? {
         // for some requests "total" is String, for others - Int
-        // normalize it to be Int
+        // normalize certain string items to be Int
         guard var response = response else {
             return nil
         }
