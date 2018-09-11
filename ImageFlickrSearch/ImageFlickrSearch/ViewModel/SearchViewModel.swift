@@ -103,7 +103,7 @@ class SearchViewModel {
                                                               itemsPerPage: itemsPerPage,
                                                               page: page)
         request = FlickrSearchRequest(parameters: searchParameters)
-        request?.start { (result, error) in
+        request?.start().subscribe(onNext: { result in
             let resultItems = PhotoItemsCollection(items: result?.photoItems, searchTerm: searchText)
             self.totalCount = result?.totalCount ?? 0
             self.pageNumber = result?.page ?? 1
@@ -115,6 +115,9 @@ class SearchViewModel {
             } else {
                 self.items.accept(resultItems)
             }
-        }
+        }, onError: { error in
+            //TODO: display error
+        })
+            .disposed(by: disposeBag)
     }
 }

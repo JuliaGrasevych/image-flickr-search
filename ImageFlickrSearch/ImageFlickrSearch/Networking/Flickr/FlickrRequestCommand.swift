@@ -7,14 +7,15 @@
 //
 
 import Foundation
+import RxSwift
 
 protocol FlickrRequestCommand {
-    associatedtype Handler
+    associatedtype ResultType
     
     var operation: Operation? { get set }
     var isExecuting: Bool { get }
     
-    func start(completion: Handler)
+    func start() -> Observable<ResultType?>
     func cancel()
 }
 

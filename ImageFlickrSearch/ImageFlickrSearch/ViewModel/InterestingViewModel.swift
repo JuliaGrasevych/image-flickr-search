@@ -62,7 +62,7 @@ class InterestingViewModel {
         let parameters = FlickrInterestingRequest.Parameters(itemsPerPage: itemsPerPage,
                                                              page: page)
         request = FlickrInterestingRequest(parameters: parameters)
-        request?.start { (result, error) in
+        request?.start().subscribe(onNext: { result in
             let resultItems = PhotoItemsCollection(items: result?.photoItems, searchTerm: "popular")
             self.totalCount = result?.totalCount ?? 0
             self.pageNumber = result?.page ?? 1
@@ -74,6 +74,9 @@ class InterestingViewModel {
             } else {
                 self.items.accept(resultItems)
             }
-        }
+        }, onError: { error in
+            //TODO: display error
+        })
+            .disposed(by: disposeBag)
     }
 }

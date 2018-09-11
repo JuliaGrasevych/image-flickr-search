@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import RxSwift
 
 class FlickrSearchRequest: FlickrRequestCommand {
     
-    typealias Handler = (Photos?, FlickrError?) -> Void
+    typealias ResultType = Photos
     
     struct Parameters {
         var searchText: String
@@ -27,7 +28,22 @@ class FlickrSearchRequest: FlickrRequestCommand {
     }
     
     // MARK: - Public methods
-    func start(completion: @escaping Handler) {
+    func start() -> Observable<ResultType?> {
+        return Observable.create({ observer -> Disposable in
+            self.start(completion: { (result, error) in
+                if let error = error {
+                    observer.onError(error)
+                    return
+                }
+                observer.onNext(result)
+                observer.onCompleted()
+            })
+            return Disposables.create()
+        })
+    }
+    
+    // MARK: - Private methods
+    private func start(completion: @escaping (Photos?, FlickrError?) -> Void) {
         operation = FlickrManager.sharedInstance.search(parameters) { (result, error) in
             if let error = error {
                 completion(nil, .flickrKit(error: error))
