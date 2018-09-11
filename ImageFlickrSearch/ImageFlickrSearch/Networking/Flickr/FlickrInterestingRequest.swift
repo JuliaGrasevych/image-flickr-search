@@ -37,7 +37,9 @@ class FlickrInterestingRequest: FlickrRequestCommand {
                 observer.onNext(result)
                 observer.onCompleted()
             })
-            return Disposables.create()
+            return Disposables.create {
+                self.cancel()
+            }
         })
     }
     

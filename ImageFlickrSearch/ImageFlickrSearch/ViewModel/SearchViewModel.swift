@@ -27,6 +27,7 @@ class SearchViewModel {
     private let itemsObservable: Observable<PhotoItemsCollection?>
     private let searchTermObservable: Observable<String?>
     private let disposeBag = DisposeBag()
+    private var requestDisposeBag = DisposeBag()
     
     private var request: FlickrSearchRequest?
     private var pageNumber = 1
@@ -98,7 +99,8 @@ class SearchViewModel {
         if request?.isExecuting == true && page > 1 {
             return
         }
-        request?.cancel()
+        // reinit dispose bar to clean it
+        requestDisposeBag = DisposeBag()
         let searchParameters = FlickrSearchRequest.Parameters(searchText: searchText,
                                                               itemsPerPage: itemsPerPage,
                                                               page: page)
@@ -118,6 +120,6 @@ class SearchViewModel {
         }, onError: { error in
             //TODO: display error
         })
-            .disposed(by: disposeBag)
+            .disposed(by: requestDisposeBag)
     }
 }

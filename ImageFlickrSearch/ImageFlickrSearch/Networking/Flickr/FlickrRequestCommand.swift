@@ -16,14 +16,15 @@ protocol FlickrRequestCommand {
     var isExecuting: Bool { get }
     
     func start() -> Observable<ResultType?>
-    func cancel()
 }
 
 extension FlickrRequestCommand {
-    func cancel() {
-        operation?.cancel()
-    }
     var isExecuting: Bool {
         return operation?.isExecuting ?? false
+    }
+    func cancel() {
+        if isExecuting {
+            operation?.cancel()
+        }
     }
 }
