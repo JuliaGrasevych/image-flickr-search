@@ -27,24 +27,7 @@ class FlickrInterestingRequest: FlickrRequestCommand {
     }
     
     // MARK: - Public methods
-    func start() -> Observable<ResultType?> {
-        return Observable.create({ observer -> Disposable in
-            self.start(completion: { (result, error) in
-                if let error = error {
-                    observer.onError(error)
-                    return
-                }
-                observer.onNext(result)
-                observer.onCompleted()
-            })
-            return Disposables.create {
-                self.cancel()
-            }
-        })
-    }
-    
-    // MARK: - Private methods
-    private func start(completion: @escaping (Photos?, FlickrError?) -> Void) {
+    func start(completion: @escaping (Photos?, FlickrError?) -> Void) {
         operation = FlickrManager.sharedInstance.getInteresting(parameters) { (result, error) in
             if let error = error {
                 completion(nil, .flickrKit(error: error))
@@ -62,5 +45,4 @@ class FlickrInterestingRequest: FlickrRequestCommand {
             completion(photos, nil)
         }
     }
-    
 }

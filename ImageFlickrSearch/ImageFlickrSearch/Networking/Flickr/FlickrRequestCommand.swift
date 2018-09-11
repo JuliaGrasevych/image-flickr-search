@@ -15,10 +15,26 @@ protocol FlickrRequestCommand {
     var operation: Operation? { get set }
     var isExecuting: Bool { get }
     
-    func start() -> Observable<ResultType?>
+    func start(completion: @escaping (ResultType?, FlickrError?) -> Void)
 }
 
 extension FlickrRequestCommand {
+    func rx_request() -> Observable<ResultType?> {
+        return Observable.create({ observer -> Disposable in
+            self.start(completion: { (result, error) in
+                if let error = error {
+                    observer.onError(error)
+                    return
+                }
+                observer.onNext(result)
+                observer.onCompleted()
+            })
+            return Disposables.create {
+                self.cancel()
+            }
+        })
+    }
+    
     var isExecuting: Bool {
         return operation?.isExecuting ?? false
     }

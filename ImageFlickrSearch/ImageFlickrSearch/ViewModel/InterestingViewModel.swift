@@ -42,6 +42,7 @@ class InterestingViewModel {
             }
             return .empty
             }
+            .distinctUntilChanged()
             .asDriver(onErrorJustReturn: .default)
         
         downloadInteresting()
@@ -62,21 +63,22 @@ class InterestingViewModel {
         let parameters = FlickrInterestingRequest.Parameters(itemsPerPage: itemsPerPage,
                                                              page: page)
         request = FlickrInterestingRequest(parameters: parameters)
-        request?.start().subscribe(onNext: { result in
-            let resultItems = PhotoItemsCollection(items: result?.photoItems, searchTerm: "popular")
-            self.totalCount = result?.totalCount ?? 0
-            self.pageNumber = result?.page ?? 1
-            self.pageCount = result?.pages ?? 0
-            self.currentCount += resultItems.count ?? 0
-            if page > 1 {
-                let newArray = self.items.value?.appending(contentsOf: resultItems)
-                self.items.accept(newArray)
-            } else {
-                self.items.accept(resultItems)
-            }
-        }, onError: { error in
-            //TODO: display error
-        })
+        request?.rx_request()
+            .subscribe(onNext: { result in
+                let resultItems = PhotoItemsCollection(items: result?.photoItems, searchTerm: "popular")
+                self.totalCount = result?.totalCount ?? 0
+                self.pageNumber = result?.page ?? 1
+                self.pageCount = result?.pages ?? 0
+                self.currentCount += resultItems.count ?? 0
+                if page > 1 {
+                    let newArray = self.items.value?.appending(contentsOf: resultItems)
+                    self.items.accept(newArray)
+                } else {
+                    self.items.accept(resultItems)
+                }
+            }, onError: { error in
+                print(error)
+            })
             .disposed(by: disposeBag)
     }
 }

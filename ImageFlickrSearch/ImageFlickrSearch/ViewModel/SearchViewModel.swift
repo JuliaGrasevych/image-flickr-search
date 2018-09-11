@@ -61,6 +61,7 @@ class SearchViewModel {
                                             }
                                             return .empty
         })
+            .distinctUntilChanged()
             .startWith(.default)
             .share()
             .asDriver(onErrorJustReturn: .default)
@@ -105,21 +106,22 @@ class SearchViewModel {
                                                               itemsPerPage: itemsPerPage,
                                                               page: page)
         request = FlickrSearchRequest(parameters: searchParameters)
-        request?.start().subscribe(onNext: { result in
-            let resultItems = PhotoItemsCollection(items: result?.photoItems, searchTerm: searchText)
-            self.totalCount = result?.totalCount ?? 0
-            self.pageNumber = result?.page ?? 1
-            self.pageCount = result?.pages ?? 0
-            self.currentCount += resultItems.count ?? 0
-            if page > 1 {
-                let newArray = self.items.value?.appending(contentsOf: resultItems)
-                self.items.accept(newArray)
-            } else {
-                self.items.accept(resultItems)
-            }
-        }, onError: { error in
-            //TODO: display error
-        })
+        request?.rx_request()
+            .subscribe(onNext: { result in
+                let resultItems = PhotoItemsCollection(items: result?.photoItems, searchTerm: searchText)
+                self.totalCount = result?.totalCount ?? 0
+                self.pageNumber = result?.page ?? 1
+                self.pageCount = result?.pages ?? 0
+                self.currentCount += resultItems.count ?? 0
+                if page > 1 {
+                    let newArray = self.items.value?.appending(contentsOf: resultItems)
+                    self.items.accept(newArray)
+                } else {
+                    self.items.accept(resultItems)
+                }
+            }, onError: { error in
+                print(error)
+            })
             .disposed(by: requestDisposeBag)
     }
 }
