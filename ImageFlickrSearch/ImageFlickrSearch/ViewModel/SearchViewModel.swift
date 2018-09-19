@@ -27,7 +27,7 @@ class SearchViewModel {
     
     // MARK: - Private methods
     private func search(fromList list: PhotoItemsCollection? = nil, with params: FlickrSearchRequest.Parameters, loadTrigger: Observable<Void> = Observable.empty()) -> Observable<PhotoItemsCollection> {
-        return search(with: params).flatMap({ collection -> Observable<PhotoItemsCollection> in
+        return searchRequest(with: params).flatMap({ collection -> Observable<PhotoItemsCollection> in
             let newlist = list != nil ? list!.appending(contentsOf: collection) : collection
             let newparams = FlickrSearchRequest.Parameters(searchText: params.searchText,
                                                            itemsPerPage: params.itemsPerPage,
@@ -40,7 +40,7 @@ class SearchViewModel {
             return events
         })
     }
-    private func search(with params: FlickrSearchRequest.Parameters) -> Observable<PhotoItemsCollection> {
+    private func searchRequest(with params: FlickrSearchRequest.Parameters) -> Observable<PhotoItemsCollection> {
         let request = FlickrSearchRequest(parameters: params)
         return request.rx_request().map { result -> PhotoItemsCollection in
             return PhotoItemsCollection(items: result?.photoItems, searchTerm: params.searchText)

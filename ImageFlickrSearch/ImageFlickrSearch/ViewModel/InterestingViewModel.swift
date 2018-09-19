@@ -23,7 +23,7 @@ class InterestingViewModel {
     
     // MARK: - Private methods
     private func load(fromList list: PhotoItemsCollection? = nil, with params: FlickrInterestingRequest.Parameters, loadTrigger: Observable<Void> = Observable.empty()) -> Observable<PhotoItemsCollection> {
-        return load(with: params).flatMap({ collection -> Observable<PhotoItemsCollection> in
+        return loadRequest(with: params).flatMap({ collection -> Observable<PhotoItemsCollection> in
             let newlist = list != nil ? list!.appending(contentsOf: collection) : collection
             let newparams = FlickrInterestingRequest.Parameters(itemsPerPage: params.itemsPerPage,
                                                            page: params.page + 1)
@@ -35,7 +35,7 @@ class InterestingViewModel {
             return events
         })
     }
-    private func load(with params: FlickrInterestingRequest.Parameters) -> Observable<PhotoItemsCollection> {
+    private func loadRequest(with params: FlickrInterestingRequest.Parameters) -> Observable<PhotoItemsCollection> {
         let request = FlickrInterestingRequest(parameters: params)
         return request.rx_request().map { result -> PhotoItemsCollection in
             return PhotoItemsCollection(items: result?.photoItems, searchTerm: "popular")
