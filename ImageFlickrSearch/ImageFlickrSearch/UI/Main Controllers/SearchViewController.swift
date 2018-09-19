@@ -26,56 +26,39 @@ class SearchViewController: UIViewController, ContentViewController {
     // MARK: - View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        resultsVC.delegate = self
+        loadChildControllers()
         resultsVC.pickerDelegate = self
         
-        viewModel.state
-            .drive(onNext: { state in
-                self.setupResults(state: state)
-            })
-            .disposed(by: disposeBag)
-        // Should this be declared in viewModel ?
-        viewModel.state
-            .filter { $0 == .empty || $0 == .default }
-            .map {
-                ($0 == .default)
-                    ? "Type at least 3 symbols to start search"
-                    : "No results"
+        let resultQuery: Observable<PhotoItemsCollection?> = searchField.rx.text
+            .orEmpty
+            .changed
+            .filter { $0.count > 2 }
+            .debounce(1, scheduler: MainScheduler.instance)
+            .flatMap { text -> Observable<PhotoItemsCollection> in
+                // check if child view controller is already loaded
+                guard let trigger = self.resultsVC.triggerObservable else { return Observable.empty() }
+                return self.viewModel.search(text, loadTrigger: trigger)
             }
-            .drive(noResultsVC.viewModel.description)
-            .disposed(by: disposeBag)
+            .map { $0 }
+            .share()
         
-        searchField.rx.text
-            .asDriver()
-            .drive(viewModel.searchTerm)
-            .disposed(by: disposeBag)
-        
-        viewModel.searchTerm.asDriver()
-            .map { value -> String? in
-                if let value = value {
-                    return "Search for \"\(value)\""
-                }
-                return nil
-            }
-            .drive(loadingVC.viewModel.text)
-            .disposed(by: self.disposeBag)
-        
-        viewModel.items.asDriver()
+        resultQuery.asDriver(onErrorJustReturn: PhotoItemsCollection(items: nil, searchTerm: ""))
             .drive(resultsVC.viewModel.resultItems)
             .disposed(by: disposeBag)
-    }
-}
-
-// MARK: - ResultsViewControllerDelegate
-extension SearchViewController: ResultsViewControllerDelegate {
-    func fetchResults(for resultsVC: ResultsViewController) {
-        viewModel.fetchResults()
-    }
-    func isLoadingCell(_ indexPath: IndexPath) -> Bool {
-        return viewModel.fullyLoaded
-            ? false
-            : indexPath.row >= viewModel.currentCount - 1
+        resultQuery.asDriver(onErrorJustReturn: PhotoItemsCollection(items: nil, searchTerm: ""))
+            .startWith(nil)
+            .drive(onNext: { items in
+                guard let items = items else {
+                    self.setupResults(state: .default(message: "Type at least 3 symbols to start search"))
+                    return
+                }
+                if let count = items.count, count > 0 {
+                    self.setupResults(state: .loaded)
+                } else {
+                    self.setupResults(state: .empty(message: "No results"))
+                }
+            })
+            .disposed(by: disposeBag)
     }
 }
 

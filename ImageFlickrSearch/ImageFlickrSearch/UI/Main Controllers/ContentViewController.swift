@@ -26,11 +26,18 @@ protocol ContentViewController where Self: UIViewController {
 }
 
 extension ContentViewController {
+    func loadChildControllers() {
+        setupChild(viewController: loadingVC)
+        setupChild(viewController: resultsVC)
+        setupChild(viewController: noResultsVC)
+    }
     func setupResults(state: ContentState) {
         switch state {
-        case .default:
+        case .default(let message):
+            noResultsVC.viewModel.description.accept(message)
             setupChild(viewController: noResultsVC)
-        case .empty:
+        case .empty(let message):
+            noResultsVC.viewModel.description.accept(message)
             setupChild(viewController: noResultsVC)
         case .loading:
             setupChild(viewController: loadingVC)

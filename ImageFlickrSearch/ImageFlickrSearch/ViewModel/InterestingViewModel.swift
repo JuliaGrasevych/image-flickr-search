@@ -11,74 +11,34 @@ import RxCocoa
 import RxSwift
 
 class InterestingViewModel {
-    let items: BehaviorRelay<PhotoItemsCollection?> = BehaviorRelay(value: nil)
-    let state: Driver<ContentState>
     
-    var fullyLoaded: Bool {
-        return currentCount == totalCount
-    }
-    var currentCount = 0
-    
-    private let itemsObservable: Observable<PhotoItemsCollection?>
-    private let disposeBag = DisposeBag()
-    
-    private var request: FlickrInterestingRequest?
-    private var pageNumber = 1
-    private var pageCount = 0
-    private var totalCount = 0
     private var itemsPerPage = 10
     
-    // MARK: - Initializers
-    init() {
-        itemsObservable = items.asObservable()
-            .distinctUntilChanged()
-            .share()
-        state = itemsObservable.map { photos -> ContentState in
-            guard let photos = photos else {
-                return .loading
-            }
-            if let count = photos.count, count > 0 {
-                return .loaded
-            }
-            return .empty
-            }
-            .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: .default)
-        
-        downloadInteresting()
-    }
-    
     // MARK: - Public methods
-    func moreResults() {
-        pageNumber += 1
-        downloadInteresting(page: pageNumber)
+    func load(page: Int = 1, loadTrigger: Observable<Void> = Observable.empty()) -> Observable<PhotoItemsCollection> {
+        let searchParameters = FlickrInterestingRequest.Parameters(itemsPerPage: itemsPerPage,
+                                                                   page: page)
+        return load(fromList: nil, with: searchParameters, loadTrigger: loadTrigger)
     }
     
     // MARK: - Private methods
-    private func downloadInteresting(page: Int = 1) {
-        // don't cancel request when it's loading next pages
-        if request?.isExecuting == true && page > 1 {
-            return
+    private func load(fromList list: PhotoItemsCollection? = nil, with params: FlickrInterestingRequest.Parameters, loadTrigger: Observable<Void> = Observable.empty()) -> Observable<PhotoItemsCollection> {
+        return load(with: params).flatMap({ collection -> Observable<PhotoItemsCollection> in
+            let newlist = list != nil ? list!.appending(contentsOf: collection) : collection
+            let newparams = FlickrInterestingRequest.Parameters(itemsPerPage: params.itemsPerPage,
+                                                           page: params.page + 1)
+            let events = Observable.concat(
+                Observable.just(newlist),
+                Observable.never().takeUntil(loadTrigger),
+                self.load(fromList: newlist, with: newparams, loadTrigger: loadTrigger)
+            )
+            return events
+        })
+    }
+    private func load(with params: FlickrInterestingRequest.Parameters) -> Observable<PhotoItemsCollection> {
+        let request = FlickrInterestingRequest(parameters: params)
+        return request.rx_request().map { result -> PhotoItemsCollection in
+            return PhotoItemsCollection(items: result?.photoItems, searchTerm: "popular")
         }
-        let parameters = FlickrInterestingRequest.Parameters(itemsPerPage: itemsPerPage,
-                                                             page: page)
-        request = FlickrInterestingRequest(parameters: parameters)
-        request?.rx_request()
-            .subscribe(onNext: { result in
-                let resultItems = PhotoItemsCollection(items: result?.photoItems, searchTerm: "popular")
-                self.totalCount = result?.totalCount ?? 0
-                self.pageNumber = result?.page ?? 1
-                self.pageCount = result?.pages ?? 0
-                self.currentCount += resultItems.count ?? 0
-                if page > 1 {
-                    let newArray = self.items.value?.appending(contentsOf: resultItems)
-                    self.items.accept(newArray)
-                } else {
-                    self.items.accept(resultItems)
-                }
-            }, onError: { error in
-                print(error)
-            })
-            .disposed(by: disposeBag)
     }
 }

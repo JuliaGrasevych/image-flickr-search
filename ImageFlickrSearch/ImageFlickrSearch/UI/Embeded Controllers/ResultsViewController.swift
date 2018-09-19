@@ -10,18 +10,15 @@ import UIKit
 import RxSwift
 import RxDataSources
 
-protocol ResultsViewControllerDelegate: class {
-    func fetchResults(for resultsVC: ResultsViewController)
-    func isLoadingCell(_ indexPath: IndexPath) -> Bool
-}
 protocol ResultsViewPickerDelegate: class {
     func didSelect(_ photo: PhotoItem)
 }
 
 class ResultsViewController: UIViewController {
     let viewModel = ResultsViewModel()
-    weak var delegate: ResultsViewControllerDelegate?
     weak var pickerDelegate: ResultsViewPickerDelegate?
+    
+    var triggerObservable: Observable<Void>?
     
     private let disposeBag = DisposeBag()
     @IBOutlet private var collectionView: UICollectionView!
@@ -38,17 +35,14 @@ class ResultsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.dataSource = nil
-        collectionView.rx
+        triggerObservable = collectionView.rx
             .prefetchItems
-            .bind { [unowned self] indexPaths in
-                guard let delegate = self.delegate else {
-                    return
-                }
-                if indexPaths.contains(where: delegate.isLoadingCell) {
-                    delegate.fetchResults(for: self)
-                }
+            .filter { indexPaths in
+                let count = self.collectionView.numberOfItems(inSection: 0)
+                return indexPaths.contains(where: { $0.row > count - 2 })
             }
-            .disposed(by: disposeBag)
+            .map { _ in }
+            .asObservable()
         
         collectionView.rx
             .modelSelected(PhotoItem.self)

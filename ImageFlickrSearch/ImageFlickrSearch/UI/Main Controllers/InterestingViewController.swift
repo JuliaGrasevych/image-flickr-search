@@ -26,36 +26,33 @@ class InterestingViewController: UIViewController, ContentViewController {
     // MARK: - View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        resultsVC.delegate = self
+        loadChildControllers()
         resultsVC.pickerDelegate = self
         
-        Driver.just("Loading...")
-            .drive(loadingVC.viewModel.text)
-            .disposed(by: disposeBag)
+        let resultQuery: Observable<PhotoItemsCollection> = Observable<Void>.just(())
+            .flatMap({ _ -> Observable<PhotoItemsCollection> in
+                // check if child view controller is already loaded
+                guard let trigger = self.resultsVC.triggerObservable else { return Observable.empty() }
+                return self.viewModel.load(loadTrigger: trigger)
+            })
+            .map { $0 }
+            .share()
         
-        viewModel.state
-            .drive(onNext: { self.setupResults(state: $0) })
-            .disposed(by: disposeBag)
-        
-        viewModel.items.asDriver()
+        resultQuery.asDriver(onErrorJustReturn: PhotoItemsCollection(items: nil, searchTerm: ""))
             .drive(resultsVC.viewModel.resultItems)
             .disposed(by: disposeBag)
+        resultQuery.asDriver(onErrorJustReturn: PhotoItemsCollection(items: nil, searchTerm: ""))
+            .drive(onNext: { items in
+                if let count = items.count, count > 0 {
+                    self.setupResults(state: .loaded)
+                } else {
+                    self.setupResults(state: .empty(message: "No results"))
+                }
+            })
+            .disposed(by: disposeBag)
+        
     }
 }
-
-// MARK: - ResultsViewControllerDelegate
-extension InterestingViewController: ResultsViewControllerDelegate {
-    func fetchResults(for resultsVC: ResultsViewController) {
-        viewModel.moreResults()
-    }
-    
-    func isLoadingCell(_ indexPath: IndexPath) -> Bool {
-        return viewModel.fullyLoaded
-            ? false
-            : indexPath.row >= viewModel.currentCount - 1
-    }
-}
-
 // MARK: - ResultsViewPickerDelegate
 extension InterestingViewController: ResultsViewPickerDelegate {
     func didSelect(_ photo: PhotoItem) {

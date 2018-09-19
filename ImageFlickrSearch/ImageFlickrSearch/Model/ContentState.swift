@@ -9,5 +9,8 @@
 import Foundation
 
 enum ContentState {
-    case `default`, loaded, loading, empty
+    case `default`(message: String?)
+    case loaded
+    case loading
+    case empty(message: String?)
 }
